@@ -52,6 +52,7 @@ app.prepare().then(async () => {
           },
           method: 'POST'
         })
+        console.log(1);
 
         const response = await Shopify.Webhooks.Registry.register({
           shop,
@@ -104,8 +105,10 @@ app.prepare().then(async () => {
 
     // This shop hasn't been seen yet, go through OAuth to create a session
     if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
+      console.log(`rediret to /auth?shop=${shop}`);
       ctx.redirect(`/auth?shop=${shop}`);
     } else {
+      console.log("handleRequest");
       await handleRequest(ctx);
     }
   });

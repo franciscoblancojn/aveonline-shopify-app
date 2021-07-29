@@ -1,5 +1,6 @@
 
 const Api = async ({shop,key,URLAPI}) => {
+    console.log("init Api",{shop});
     const getToken = async () => {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -15,17 +16,24 @@ const Api = async ({shop,key,URLAPI}) => {
         };
         try {
             const response = await fetch( URLAPI + "/getToken", requestOptions)
-            const result = await response.text()
+            const result = await response.json()
             return result
         } catch (error) {
             console.log("error",error);
-            return error
+            return {
+                type:"error",
+                error
+            }
         }
     }
-    const token = await getToken()
-    console.log("load Api",token);
+    var token = await getToken()
+    if(token.type != "error"){
+        token = token[0].token
+    }else{
+        token = null
+    }
     return {
-
+        
     }
 }
 export default  Api

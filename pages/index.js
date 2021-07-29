@@ -143,27 +143,21 @@ import Api from "@/api/apiShopify"
 // 	}
 // }
 import getConfig from 'next/config'
-const {publicRuntimeConfig} = getConfig()
 const Index = ({query}) => {
-	const [shop, setShop] = useState(null);
-	const [apiKey, setApiKey] = useState(null)
-	const load = () => {
-		const {key} = publicRuntimeConfig
-		setApiKey(key)
-		setShop(query.shop)
+	const load = async () => {
+		const {publicRuntimeConfig} = getConfig()
+		const {key,URLAPI} = publicRuntimeConfig
+		const {shop} = query
+		if(shop && key){
+			const api = await Api({shop,key,URLAPI})
+		}
 	}
 	useEffect(() => {
+		console.log("init load");
 		load()
 	}, [])
-	useEffect(() => {
-		if(shop && apiKey){
-			const {URLAPI} = publicRuntimeConfig
-			Api({shop,key:apiKey,URLAPI})
-		}
-	}, [shop,apiKey])
 	return <>
 		hola
-		{shop}
 	</>
 }
 export async function getServerSideProps(context) {
