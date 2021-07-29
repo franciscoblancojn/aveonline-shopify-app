@@ -18,6 +18,7 @@ module.exports = {
     return config;
   },
   publicRuntimeConfig : {
-    key : process.env.APIKEY 
+    key : process.env.APIKEY ,
+    URLAPI : process.env.URLAPI
   }
 };

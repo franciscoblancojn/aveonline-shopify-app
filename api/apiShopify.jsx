@@ -1,18 +1,20 @@
 
-const Api = async ({shop,key}) => {
-    const URL = "https://aveonline.startscoinc.com/api/v1"
+const Api = async ({shop,key,URLAPI}) => {
     const getToken = async () => {
         var myHeaders = new Headers();
-        myHeaders.append("key", key);
-        myHeaders.append("shop", shop);
-
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({
+            shop,
+            key
+        });
         var requestOptions = {
-            method: 'GET',
+            method: 'POST',
             headers: myHeaders,
+            body: raw,
             redirect: 'follow'
         };
         try {
-            const response = await fetch( URL + "/getToken", requestOptions)
+            const response = await fetch( URLAPI + "/getToken", requestOptions)
             const result = await response.text()
             return result
         } catch (error) {

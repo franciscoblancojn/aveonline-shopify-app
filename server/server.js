@@ -44,12 +44,11 @@ app.prepare().then(async () => {
         const host = ctx.query.host;
         ACTIVE_SHOPIFY_SHOPS[shop] = scope;
 
-        const body = {shop,token:accessToken}
-        await fetch("https://aveonline.startscoinc.com/api/v1/saveToken", {
+        const body = {shop,token:accessToken,key: process.env.APIKEY}
+        await fetch(process.env.URLAPI + "/saveToken", {
           body: JSON.stringify(body),
           headers: {
-            'Content-Type': 'application/json',
-            key: process.env.APIKEY
+            'Content-Type': 'application/json'
           },
           method: 'POST'
         })

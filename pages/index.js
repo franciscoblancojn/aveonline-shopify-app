@@ -157,7 +157,8 @@ const Index = ({query}) => {
 	}, [])
 	useEffect(() => {
 		if(shop && apiKey){
-			Api({shop,key:apiKey})
+			const {URLAPI} = publicRuntimeConfig
+			Api({shop,key:apiKey,URLAPI})
 		}
 	}, [shop,apiKey])
 	return <>
