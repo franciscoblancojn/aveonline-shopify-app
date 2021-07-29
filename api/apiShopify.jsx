@@ -30,10 +30,13 @@ const Api = async ({shop,key,URLAPI}) => {
     if(token.type != "error"){
         token = token[0].token
     }else{
-        token = null
+        return {
+            type : "error"
+        }
     }
     return {
-        
+        type : "ok"
+
     }
 }
 export default  Api

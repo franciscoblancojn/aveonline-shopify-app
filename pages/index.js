@@ -5,9 +5,52 @@ import {
 	Card
 } from '@shopify/polaris';
 import {useState,useEffect} from 'react'
-
+import getConfig from 'next/config'
 
 import Api from "@/api/apiShopify"
+
+import Loader from "@/components/loader"
+import Error from "@/components/error"
+
+const Index = ({query}) => {
+	const [page, setPage] = useState(<Loader/>)
+	const load = async () => {
+		const {publicRuntimeConfig} = getConfig()
+		const {key,URLAPI} = publicRuntimeConfig
+		const {shop} = query
+		if(shop && key){
+			const api = await Api({shop,key,URLAPI})
+			if(api.type == "error"){
+				setPage(<Error>
+					<p>
+						Ocurrio un error, contactece con un desarrollador 
+					</p>
+				</Error>)
+			}else{
+				setPage(<Error>
+					<p>
+						Todo bien 
+					</p>
+				</Error>)
+			}
+		}
+	}
+	useEffect(() => {
+		console.log("init load");
+		load()
+	}, [])
+	return <>
+		{page}
+	</>
+}
+export async function getServerSideProps(context) {
+	const { req, query, res, asPath, pathname } = context;
+	return {
+		props:{ query }
+	}
+}
+export default Index;
+
 // import Content from "../components/content"
 
 
@@ -142,28 +185,3 @@ import Api from "@/api/apiShopify"
 // 		);
 // 	}
 // }
-import getConfig from 'next/config'
-const Index = ({query}) => {
-	const load = async () => {
-		const {publicRuntimeConfig} = getConfig()
-		const {key,URLAPI} = publicRuntimeConfig
-		const {shop} = query
-		if(shop && key){
-			const api = await Api({shop,key,URLAPI})
-		}
-	}
-	useEffect(() => {
-		console.log("init load");
-		load()
-	}, [])
-	return <>
-		hola
-	</>
-}
-export async function getServerSideProps(context) {
-	const { req, query, res, asPath, pathname } = context;
-	return {
-		props:{ query }
-	}
-}
-export default Index;
