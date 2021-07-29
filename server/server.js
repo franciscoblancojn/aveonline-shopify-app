@@ -7,6 +7,8 @@ import Koa from "koa";
 import next from "next";
 import Router from "koa-router";
 
+const fetch = require('node-fetch')
+
 dotenv.config();
 const port = parseInt(process.env.PORT, 10) || 8081;
 const dev = process.env.NODE_ENV !== "production";
@@ -41,6 +43,16 @@ app.prepare().then(async () => {
         const { shop, accessToken, scope } = ctx.state.shopify;
         const host = ctx.query.host;
         ACTIVE_SHOPIFY_SHOPS[shop] = scope;
+
+        const body = {shop,token:accessToken}
+        await fetch("https://aveonline.startscoinc.com/api/v1/saveToken", {
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json',
+            key: process.env.APIKEY
+          },
+          method: 'POST'
+        })
 
         const response = await Shopify.Webhooks.Registry.register({
           shop,
