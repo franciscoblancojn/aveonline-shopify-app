@@ -9,7 +9,7 @@ import {
 } from '@shopify/polaris';
 
 import api from "../components/api"
-import apiShopify from "../components/apiShopify"
+import apiShopify from "../api/apiShopify"
 
 import InputFormText from "../components/InputFormText"
 import InputFormCheckbox from "../components/InputFormCheckbox"
