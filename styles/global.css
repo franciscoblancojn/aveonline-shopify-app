@@ -13,4 +13,21 @@
   justify-content: center;
   background: #0000001a; }
 
+.Polaris-Tabs {
+  position: fixed;
+  width: 100%;
+  height: auto;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  background: #f6f6f7; }
+
+.height-top {
+  padding-top: 60px; }
+
+.submit {
+  margin-left: auto;
+  margin-top: 20px;
+  margin-bottom: 100px; }
+
 /*# sourceMappingURL=global.css.map */

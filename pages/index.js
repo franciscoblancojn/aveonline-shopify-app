@@ -1,9 +1,3 @@
-
-import {
-	Spinner,
-	Tabs,
-	Card
-} from '@shopify/polaris';
 import {useState,useEffect} from 'react'
 import getConfig from 'next/config'
 
@@ -11,6 +5,7 @@ import Api from "@/api/apiShopify"
 
 import Loader from "@/components/loader"
 import Error from "@/components/error"
+import Page from "@/components/page"
 
 const Index = ({query}) => {
 	const [page, setPage] = useState(<Loader/>)
@@ -27,11 +22,7 @@ const Index = ({query}) => {
 					</p>
 				</Error>)
 			}else{
-				setPage(<Error>
-					<p>
-						Todo bien 
-					</p>
-				</Error>)
+				setPage(<Page api={api}/>)
 			}
 		}
 	}

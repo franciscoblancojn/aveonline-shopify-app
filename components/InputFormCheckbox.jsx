@@ -4,31 +4,41 @@ import {
     TextStyle,
 } from '@shopify/polaris';
 
-class InputFormCheckbox extends React.Component {
-    render() {
-        const contentStatus = this.props.enabled ? 'Enable' : 'Disable';
-        const textStatus = this.props.enabled ? 'Activo' : 'Inactivo';
+const InputFormCheckbox = (props) => {
+    const {
+        id,
+        name,
+        title,
+        description,
+        label,
+        onChange,
+        enabled,
+    } = props
 
-        return (
-            <Layout.AnnotatedSection
-                title={this.props.title}
-                description={this.props.description}
+    const contentStatus = enabled ? 'Enable' : 'Disable';
+    const textStatus = enabled ? 'Activo' : 'Inactivo';
+    
+    return (
+        <Layout.AnnotatedSection
+            title={title}
+            description={description}
+        >
+            <SettingToggle
+                id={id}
+                name={name}
+                action={{
+                    content: contentStatus,
+                    onAction: ()=>{
+                        onChange(!enabled)
+                    },
+                }}
+                enabled={!enabled}
             >
-                <SettingToggle
-                    id={this.props.id}
-                    name={this.props.name}
-                    action={{
-                        content: contentStatus,
-                        onAction: this.props.onAction,
-                    }}
-                    enabled={!this.props.enabled}
-                >
-                    {this.props.label}
-                    <TextStyle variation="strong">{textStatus}</TextStyle>.
-              </SettingToggle>
-            </Layout.AnnotatedSection>
-        );
-    }
+                {label}
+                <TextStyle variation="strong">{textStatus}</TextStyle>.
+            </SettingToggle>
+        </Layout.AnnotatedSection>
+    );
 }
 
 export default InputFormCheckbox;

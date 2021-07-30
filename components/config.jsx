@@ -29,7 +29,6 @@ class Config extends React.Component {
 	render() {
 		return (
 			<div>
-				{(this.state.loading) ? this.state.spinnerLoading : ""}
 				<Modal
 					open={this.state.modal}
 					onClose={this.closeModal}
