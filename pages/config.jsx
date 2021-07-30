@@ -14,6 +14,7 @@ import InputFormLoadSelect from "@/components/InputFormLoadSelect"
 
 const Index = ({api,modal}) => {
     const [aveonline, setAveonline] = useState(api.Aveonline())
+    const [shopify, setShopify] = useState(api.Shopify())
     const [config, setConfig] = useState({
         eneable : false,
 	
@@ -69,6 +70,14 @@ const Index = ({api,modal}) => {
         modal.openModal(respond)
         setConfig({...config,[respond.key]:respond.value})
     }
+    const loadConfig = async () => {
+        console.log('loadConfig');
+        const respond = await shopify.getMetafields()
+        console.log(respond);
+    }
+    useEffect(() => {
+        loadConfig()
+    }, [])
     return (
         <div>
             <Form onSubmit={saveConfig}>

@@ -171,9 +171,49 @@ const Api = async ({shop,key,URLAPI,URLAVEONLINE}) => {
             getAgentes,
         }
     }
+
+    const Shopify = () => {
+        const VESIONAPISHOPIFY = "2021-01"
+        const URLAPISHOPIFY = `https://${shop}/admin/api/${VESIONAPISHOPIFY}/`
+        const request = async ({json = {} , url = "",  method = "POST"}) => {
+            var myHeaders = new Headers();
+                myHeaders.append("X-Shopify-Access-Token", key);
+
+            var requestOptions = {
+                method,
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+            if(method != "GET"){
+                requestOptions.body = JSON.stringify(json)
+            }
+            try {
+                const response = await fetch(URLAPISHOPIFY + url, requestOptions)
+                const result = await response.json()
+                return result
+            } catch (error) {
+                console.log("error",error);
+                return {
+                    type:"error",
+                    error
+                }
+            }
+        }
+        const getMetafields = async () => {
+            const respond = await request({
+                url : "metafields.json",
+                method : "GET",
+            })
+            return respond
+        }
+        return {
+            getMetafields,
+        }
+    }
     return {
         type : "ok",
-        Aveonline
+        Aveonline,
+        Shopify
     }
 }
 export default  Api

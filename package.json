@@ -27,6 +27,7 @@
     "@shopify/koa-shopify-auth": "^4.1.2",
     "@shopify/polaris": "^6.6.0",
     "apollo-boost": "^0.4.9",
+    "axios": "^0.21.1",
     "cross-env": "^7.0.3",
     "dotenv": "^8.6.0",
     "env-var": "^7.0.1",
