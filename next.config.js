@@ -19,6 +19,7 @@ module.exports = {
   },
   publicRuntimeConfig : {
     key : process.env.APIKEY ,
-    URLAPI : process.env.URLAPI
+    URLAPI : process.env.URLAPI,
+    URLAVEONLINE : process.env.URLAVEONLINE,
   }
 };

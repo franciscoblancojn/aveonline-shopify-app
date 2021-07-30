@@ -4,17 +4,16 @@ import {
 	Layout,
 	Page,
 	Stack,
-	Modal,
-	TextContainer
 } from '@shopify/polaris';
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 
 import InputFormText from "@/components/InputFormText"
 import InputFormCheckbox from "@/components/InputFormCheckbox"
 import InputFormSelect from "@/components/InputFormSelect"
 import InputFormLoadSelect from "@/components/InputFormLoadSelect"
 
-const Index = ({api}) => {
+const Index = ({api,modal}) => {
+    const [aveonline, setAveonline] = useState(api.Aveonline())
     const [config, setConfig] = useState({
         eneable : false,
 	
@@ -32,10 +31,6 @@ const Index = ({api}) => {
             {
                 label: 'Seleccione Cuenta',
                 value: ''
-            },
-            {
-                label: 'test',
-                value: 'test'
             },
         ],
         agente: "",
@@ -55,12 +50,24 @@ const Index = ({api}) => {
     const saveConfig = () => {
         console.log(config);
         console.log("saveConfig");
+        modal.openModal({
+            title:"TEST",
+            text:"test"
+        })
     }
     const handleChange = (field) => {
 		return (value) => setConfig({...config, [field]: value })
 	}
-    const loadSelect = (field) => {
-        console.log(field);
+    const loadSelect = async (field) => {
+        const sw = {
+            "cuenta" : aveonline.getCuentas,
+            "agente" : aveonline.getAgentes,
+            "default" : async () => {return {title : "Default",text : "default",key:"eneable",value:config.eneable}}
+        }
+        const fun = sw[field] || sw.default
+        const respond  = await fun(config)
+        modal.openModal(respond)
+        setConfig({...config,[respond.key]:respond.value})
     }
     return (
         <div>

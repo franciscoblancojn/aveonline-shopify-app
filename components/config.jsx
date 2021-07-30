@@ -8,8 +8,8 @@ import {
 	TextContainer
 } from '@shopify/polaris';
 
-import api from "../components/api"
-import apiShopify from "../api/apiShopify"
+import api from "../api/apiAveonline"
+import apiShopify from "../api/api"
 
 import InputFormText from "../components/InputFormText"
 import InputFormCheckbox from "../components/InputFormCheckbox"

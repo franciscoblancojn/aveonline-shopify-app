@@ -1,7 +1,7 @@
 import {useState,useEffect} from 'react'
 import getConfig from 'next/config'
 
-import Api from "@/api/apiShopify"
+import Api from "@/api/api"
 
 import Loader from "@/components/loader"
 import Error from "@/components/error"
@@ -11,10 +11,10 @@ const Index = ({query}) => {
 	const [page, setPage] = useState(<Loader/>)
 	const load = async () => {
 		const {publicRuntimeConfig} = getConfig()
-		const {key,URLAPI} = publicRuntimeConfig
+		const {key,URLAPI,URLAVEONLINE} = publicRuntimeConfig
 		const {shop} = query
 		if(shop && key){
-			const api = await Api({shop,key,URLAPI})
+			const api = await Api({shop,key,URLAPI,URLAVEONLINE})
 			if(api.type == "error"){
 				setPage(<Error>
 					<p>

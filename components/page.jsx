@@ -7,7 +7,6 @@ import Content from "@/components/content"
 import Pageconfig from "@/pages/config"
 import Pagerecogidas from "@/components/recogidas"
 import Pagerelaciones from "@/components/relaciones"
-import config from 'next/config';
 
 const Index = ({api}) => {
     const [indexTab, setIndexTab] = useState(0)
