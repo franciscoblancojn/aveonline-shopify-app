@@ -13,7 +13,6 @@ import InputFormText from "@/components/InputFormText"
 import InputFormCheckbox from "@/components/InputFormCheckbox"
 import InputFormSelect from "@/components/InputFormSelect"
 import InputFormLoadSelect from "@/components/InputFormLoadSelect"
-import InputFormPackage from "@/components/InputFormPackage"
 
 const Index = ({api}) => {
     const [config, setConfig] = useState({
@@ -39,6 +38,19 @@ const Index = ({api}) => {
                 value: 'test'
             },
         ],
+        agente: "",
+        option_agente: [
+            {
+                label: 'Seleccione Agente',
+                value: "",
+                nombre: "",
+                direccion: "",
+                email: "",
+                idciudad: "",
+                telefono: "",
+            },
+        ],
+        valorMinimo: false,
     })
     const saveConfig = () => {
         console.log(config);
@@ -156,6 +168,37 @@ const Index = ({api}) => {
                             type="text"
                             options={config.option_cuenta}
                         ></InputFormSelect>
+                        <InputFormLoadSelect
+                            id="inputAgente"
+                            name="inputAgente"
+                            title="Agente Seleccionado"
+                            description=""
+                            value={config.option_agente.find((e)=>e.value==config.agente).label}
+                            label=""
+                            type="text"
+                            btn="Cargar Agentes"
+                            load={() => { loadSelect('agente') }}
+                        ></InputFormLoadSelect>
+                        <InputFormSelect
+                            id="selectAgente"
+                            name="selectAgente"
+                            title="Agente"
+                            description="Seleccione el agente cargado por medio de Cuenta"
+                            value={config.agente}
+                            onChange={handleChange('agente')}
+                            label="Agente"
+                            type="text"
+                            options={config.option_agente}
+                        ></InputFormSelect>
+                        <InputFormCheckbox
+                            id="valorMinimo"
+                            name="valorMinimo"
+                            title="Habilitar/Deshabilitar"
+                            description=""
+                            label="Actualmente Valor Minimo esta "
+                            onChange={handleChange('valorMinimo')}
+                            enabled={config.valorMinimo}
+                        ></InputFormCheckbox>
                         <div className="submit">
                             <Stack distribution="trailing" >
                                 <Button primary submit>
