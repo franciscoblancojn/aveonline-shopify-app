@@ -29,6 +29,12 @@ const Index = ({api}) => {
         dscorreopre: "",
 
         cuenta: "",
+        option_cuenta: [
+            {
+                label: 'Seleccione Cuenta',
+                value: ''
+            },
+        ],
     })
     const saveConfig = () => {
         console.log(config);
@@ -121,6 +127,28 @@ const Index = ({api}) => {
                             label="Correo"
                             type="email"
                         ></InputFormText>
+                        {/* <InputFormLoadSelect
+                            id="inputCuenta"
+                            name="inputCuenta"
+                            title="Cuenta Seleccionada"
+                            description=""
+                            value={this.getLabelForValue(config.option_cuenta, config.cuenta)}
+                            label=""
+                            type="text"
+                            btn="Cargar Cuentas"
+                            load={() => { this.loadSelect('cuenta') }}
+                        ></InputFormLoadSelect> */}
+                        <InputFormSelect
+                            id="selectCuenta"
+                            name="selectCuenta"
+                            title="Cuenta"
+                            description="Seleccione la cuenta cargada por medio de User y Password"
+                            value={config.cuenta}
+                            onChange={this.handleChange('cuenta')}
+                            label="Cuenta"
+                            type="text"
+                            options={config.option_cuenta}
+                        ></InputFormSelect>
                         <div className="submit">
                             <Stack distribution="trailing" >
                                 <Button primary submit>

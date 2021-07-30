@@ -35,7 +35,7 @@ const Index = ({query}) => {
 	</>
 }
 export async function getServerSideProps(context) {
-	const { req, query, res, asPath, pathname } = context;
+	const { query } = context;
 	return {
 		props:{ query }
 	}
