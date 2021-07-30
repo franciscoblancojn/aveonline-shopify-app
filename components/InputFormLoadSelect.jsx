@@ -7,55 +7,52 @@ import {
     TextField,
 } from '@shopify/polaris';
 
-class InputFormLoadSelect extends React.Component {
-    render() {
-        return (
-            <Layout.AnnotatedSection
-                title={this.props.title}
-                description={this.props.description}
-            >
-                <Card sectioned>
-                    <FormLayout>
+const InputFormLoadSelect = (props) => {
+    const {
+        id,
+        name,
+        title,
+        description,
+        value,
+        type,
+        btn,
+        load,
+    } = props;
+    return (
+        <Layout.AnnotatedSection
+            title={title}
+            description={description}
+        >
+            <Card sectioned>
+                <FormLayout>
+                    <div className="loadSelect">
                         <div className="contentFieldBtn">
                             <div className="contentField">
                                 <TextField
-                                    id={this.props.id}
-                                    name={this.props.name}
-                                    value={this.props.value}
+                                    id={id}
+                                    name={name}
+                                    value={value}
                                     disabled
-                                    type={this.props.type}
+                                    type={type}
                                 />
                             </div>
                             <div className="contentBtn">
                                 <Stack distribution="trailing">
                                     <Button 
                                     primary
-                                    onClick={this.props.load}
+                                    onClick={load}
                                     submit={false}
                                     >
-                                        {this.props.btn}
+                                        {btn}
                                     </Button>
                                 </Stack>
                             </div>
                         </div>
-                    </FormLayout>
-                </Card>
-                <style jsx>
-                    {`
-                    .contentFieldBtn{
-                        display:flex;
-                    }
-                    .contentField{
-                        width:100%;
-                    }
-                    .contentBtn{
-                        min-width: 130px;
-                    }
-                    `}
-                </style>
-            </Layout.AnnotatedSection>
-        );
-    }
+                    </div>
+                </FormLayout>
+            </Card>
+        </Layout.AnnotatedSection>
+    );
 }
 
 export default InputFormLoadSelect;

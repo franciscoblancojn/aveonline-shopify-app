@@ -7,3 +7,15 @@
     margin-top:20px;
     margin-bottom:100px;
 }
+
+.loadSelect{
+    .contentFieldBtn{
+        display:flex;
+    }
+    .contentField{
+        width:100%;
+    }
+    .contentBtn{
+        min-width: 130px;
+    }
+}

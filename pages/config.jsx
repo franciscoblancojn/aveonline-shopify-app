@@ -34,6 +34,10 @@ const Index = ({api}) => {
                 label: 'Seleccione Cuenta',
                 value: ''
             },
+            {
+                label: 'test',
+                value: 'test'
+            },
         ],
     })
     const saveConfig = () => {
@@ -43,6 +47,9 @@ const Index = ({api}) => {
     const handleChange = (field) => {
 		return (value) => setConfig({...config, [field]: value })
 	}
+    const loadSelect = (field) => {
+        console.log(field);
+    }
     return (
         <div>
             <Form onSubmit={saveConfig}>
@@ -127,24 +134,24 @@ const Index = ({api}) => {
                             label="Correo"
                             type="email"
                         ></InputFormText>
-                        {/* <InputFormLoadSelect
+                        <InputFormLoadSelect
                             id="inputCuenta"
                             name="inputCuenta"
                             title="Cuenta Seleccionada"
                             description=""
-                            value={this.getLabelForValue(config.option_cuenta, config.cuenta)}
+                            value={config.option_cuenta.find((e)=>e.value==config.cuenta).label}
                             label=""
                             type="text"
                             btn="Cargar Cuentas"
-                            load={() => { this.loadSelect('cuenta') }}
-                        ></InputFormLoadSelect> */}
+                            load={() => { loadSelect('cuenta') }}
+                        ></InputFormLoadSelect>
                         <InputFormSelect
                             id="selectCuenta"
                             name="selectCuenta"
                             title="Cuenta"
                             description="Seleccione la cuenta cargada por medio de User y Password"
                             value={config.cuenta}
-                            onChange={this.handleChange('cuenta')}
+                            onChange={handleChange('cuenta')}
                             label="Cuenta"
                             type="text"
                             options={config.option_cuenta}

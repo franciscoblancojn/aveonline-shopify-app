@@ -5,29 +5,38 @@ import {
     Select,
 } from '@shopify/polaris';
 
-class InputFormSelect extends React.Component {
-    render() {
-        return (
-            <Layout.AnnotatedSection
-                title={this.props.title}
-                description={this.props.description}
-            >
-                <Card sectioned>
-                    <FormLayout>
-                        <Select
-                            id={this.props.id}
-                            name={this.props.name}
-                            value={this.props.value}
-                            onChange={this.props.onChange}
-                            label={this.props.label}
-                            type={this.props.type}
-                            options={this.props.options}
-                        />
-                    </FormLayout>
-                </Card>
-            </Layout.AnnotatedSection>
-        );
-    }
+const InputFormSelect = (props) => {
+    const {
+        id,
+        name,
+        title,
+        description,
+        value,
+        onChange,
+        label,
+        type,
+        options,
+    } = props;
+    return (
+        <Layout.AnnotatedSection
+            title={title}
+            description={description}
+        >
+            <Card sectioned>
+                <FormLayout>
+                    <Select
+                        id={id}
+                        name={name}
+                        value={value}
+                        onChange={onChange}
+                        label={label}
+                        type={type}
+                        options={options}
+                    />
+                </FormLayout>
+            </Card>
+        </Layout.AnnotatedSection>
+    );
 }
 
 export default InputFormSelect;

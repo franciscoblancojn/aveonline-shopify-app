@@ -30,4 +30,11 @@
   margin-top: 20px;
   margin-bottom: 100px; }
 
+.loadSelect .contentFieldBtn {
+  display: flex; }
+.loadSelect .contentField {
+  width: 100%; }
+.loadSelect .contentBtn {
+  min-width: 130px; }
+
 /*# sourceMappingURL=global.css.map */
