@@ -175,20 +175,28 @@ const Api = async ({shop,key,URLAPI,URLAVEONLINE}) => {
     const Shopify = () => {
         const VESIONAPISHOPIFY = "2021-01"
         const URLAPISHOPIFY = `https://${shop}/admin/api/${VESIONAPISHOPIFY}/`
-        const request = async ({json = {} , url = "",  method = "POST"}) => {
+        const request = async ({json = {} , url = "",  method = "get"}) => {
             var myHeaders = new Headers();
-                myHeaders.append("X-Shopify-Access-Token", key);
-
+            myHeaders.append("Content-Type", "application/json");
+            var raw = JSON.stringify({
+                key,
+                "config" : {
+                    "method": method,
+                    "url": URLAPISHOPIFY + url,
+                    "headers": { 
+                        "X-Shopify-Access-Token": token
+                    },
+                    "data" : JSON.stringify(json)
+                }
+            });
             var requestOptions = {
-                method,
+                method: 'POST',
                 headers: myHeaders,
+                body: raw,
                 redirect: 'follow'
             };
-            if(method != "GET"){
-                requestOptions.body = JSON.stringify(json)
-            }
             try {
-                const response = await fetch(URLAPISHOPIFY + url, requestOptions)
+                const response = await fetch(URLAPI + "/request", requestOptions)
                 const result = await response.json()
                 return result
             } catch (error) {
