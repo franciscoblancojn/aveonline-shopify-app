@@ -15,6 +15,7 @@ import InputFormLoadSelect from "@/components/InputFormLoadSelect"
 const Index = ({api,modal}) => {
     const [aveonline, setAveonline] = useState(api.Aveonline())
     const [shopify, setShopify] = useState(api.Shopify())
+    const [id, setId] = useState(null)
     const [config, setConfig] = useState({
         eneable : false,
 	
@@ -48,12 +49,14 @@ const Index = ({api,modal}) => {
         ],
         valorMinimo: false,
     })
-    const saveConfig = () => {
+    const saveConfig = async () => {
         console.log(config);
         console.log("saveConfig");
+        const respond = await shopify.saveConfigAveonline(config,id)
+        console.log(respond);
         modal.openModal({
-            title:"TEST",
-            text:"test"
+            title:"Save",
+            text:"Configuraciones Guardadas"
         })
     }
     const handleChange = (field) => {
@@ -71,9 +74,12 @@ const Index = ({api,modal}) => {
         setConfig({...config,[respond.key]:respond.value})
     }
     const loadConfig = async () => {
-        console.log('loadConfig');
         const respond = await shopify.getMetafields()
-        console.log(respond);
+        const metafields = respond.data.metafields.find((e)=>e.key == "configAveonline")
+        if(metafields){
+            setConfig({...config,...JSON.parse(metafields.value)})
+            console.log('loadConfig');
+        }
     }
     useEffect(() => {
         loadConfig()

@@ -121,23 +121,23 @@ const Api = async ({shop,key,URLAPI,URLAVEONLINE}) => {
                 result.text = "Debes ingresar una Cuenta"
                 return result
             }
-            var autentificate = await autentificate(state)
-            if(autentificate.status == "error"){
+            var r = await autentificate(state)
+            if(r.status == "error"){
                 result.title = "Upps Ocurrio un Error"
-                result.text = `Erro: ${autentificate.message}`
+                result.text = `Erro: ${r.message}`
                 return result
             }
-            if(autentificate.type == "error"){
+            if(r.type == "error"){
                 result.title = "Upps Ocurrio un Error"
-                result.text = `Erro: ${autentificate.error}`
+                result.text = `Erro: ${r.error}`
                 return result
             }
             var json = {
                 "tipo":"listarAgentesPorEmpresaAuth",	  
-                "token":autentificate.token,
+                "token":r.token,
                 "idempresa":state.cuenta
             }
-            var r = await request({
+            r = await request({
                 json,
                 url:"/agentes.php"
             })
@@ -175,7 +175,7 @@ const Api = async ({shop,key,URLAPI,URLAVEONLINE}) => {
     const Shopify = () => {
         const VESIONAPISHOPIFY = "2021-01"
         const URLAPISHOPIFY = `https://${shop}/admin/api/${VESIONAPISHOPIFY}/`
-        const request = async ({json = {} , url = "",  method = "get"}) => {
+        const request = async ({data = "" , url = "",  method = "get"}) => {
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             var raw = JSON.stringify({
@@ -186,7 +186,7 @@ const Api = async ({shop,key,URLAPI,URLAVEONLINE}) => {
                     "headers": { 
                         "X-Shopify-Access-Token": token
                     },
-                    "data" : JSON.stringify(json)
+                    data
                 }
             });
             var requestOptions = {
@@ -210,12 +210,53 @@ const Api = async ({shop,key,URLAPI,URLAVEONLINE}) => {
         const getMetafields = async () => {
             const respond = await request({
                 url : "metafields.json",
-                method : "GET",
+                method : "get",
             })
             return respond
         }
+        const postMetafields = async (config) => {
+            const respond = await request({
+                url : "metafields.json",
+                method : "post",
+                data : {
+                    "metafield": {
+                        "namespace": "configAveonline",
+                        "key": "configAveonline",
+                        "value": JSON.stringify(config),
+                        "value_type": "string"
+                    }
+                }
+            })
+            return respond
+        }
+        const putMetafields = async (config,id) => {
+            const respond = await request({
+                url : "metafields.json",
+                method : "put",
+                data : {
+                    "metafield": {
+                        id,
+                        "namespace": "configAveonline",
+                        "key": "configAveonline",
+                        "value": JSON.stringify(config),
+                        "value_type": "string"
+                    }
+                }
+            })
+            return respond
+        }
+        const saveConfigAveonline = async (config,id) => {
+            if(id){
+                return await putMetafields(config,id)
+            }else{
+                return await postMetafields(config)
+            }
+        }
         return {
             getMetafields,
+            postMetafields,
+            putMetafields,
+            saveConfigAveonline,
         }
     }
     return {
