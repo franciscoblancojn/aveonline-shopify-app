@@ -73,7 +73,7 @@ const Api = async ({shop,key,URLAPI,URLAVEONLINE}) => {
         const getCuentas = async (state) =>{
             var result = {
                 key : "option_cuenta",
-                value : state.option_cuenta,
+                value : state.default_option_cuenta,
                 title : "Carga Finalizada",
                 text : "Se cargaron correctamente las cuentas, seleccione una para configurar Aveonline"
                 
@@ -111,7 +111,7 @@ const Api = async ({shop,key,URLAPI,URLAVEONLINE}) => {
         const getAgentes = async (state) =>{
             var result = {
                 key:"option_agente",
-                value : state.option_agente,
+                value : state.default_option_agente,
                 title : "Carga Finalizada",
                 text : "Se cargaron correctamente los Agentes, seleccione uno para configurar Aveonline"
                 

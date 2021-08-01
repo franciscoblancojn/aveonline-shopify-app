@@ -35,8 +35,25 @@ const Index = ({api,modal}) => {
                 value: ''
             },
         ],
+        default_option_cuenta: [
+            {
+                label: 'Seleccione Cuenta',
+                value: ''
+            },
+        ],
         agente: "",
         option_agente: [
+            {
+                label: 'Seleccione Agente',
+                value: "",
+                nombre: "",
+                direccion: "",
+                email: "",
+                idciudad: "",
+                telefono: "",
+            },
+        ],
+        default_option_agente: [
             {
                 label: 'Seleccione Agente',
                 value: "",
