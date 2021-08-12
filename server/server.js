@@ -6,6 +6,7 @@ import Shopify, { ApiVersion } from "@shopify/shopify-api";
 import Koa from "koa";
 import next from "next";
 import Router from "koa-router";
+import { getShipping } from "./shipping";
 
 const fetch = require('node-fetch')
 
@@ -100,6 +101,10 @@ app.prepare().then(async () => {
 
   router.get("(/_next/static/.*)", handleRequest); // Static content is clear
   router.get("/_next/webpack-hmr", handleRequest); // Webpack content is clear
+  router.get("/shipping", async (ctx) => {
+    ctx.body = JSON.stringify( await getShipping());
+    ctx.res.statusCode = 200;
+  }); // Webpack content is clear
   router.get("(.*)", async (ctx) => {
     const shop = ctx.query.shop;
 
