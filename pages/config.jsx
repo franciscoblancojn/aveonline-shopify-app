@@ -92,7 +92,14 @@ const Index = ({api,modal}) => {
     }
     const loadConfig = async () => {
         const respond = await shopify.getMetafields()
-        const metafields = respond.data.metafields.find((e)=>e.key == "configAveonline")
+        if(respond.type == "error"){
+            modal.openModal({
+                title:"Error",
+                text:"Ocurrio un error con la instalacion, reinstale el app porfavor"
+            })
+
+        }
+        const metafields = respond?.data?.metafields.find((e)=>e.key == "configAveonline")
         if(metafields){
             setConfig({...config,...JSON.parse(metafields.value)})
             console.log('loadConfig');

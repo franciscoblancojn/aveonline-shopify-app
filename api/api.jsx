@@ -189,6 +189,7 @@ const Api = async ({shop,key,URLAPI,URLAVEONLINE}) => {
                     data
                 }
             });
+            console.log(raw);
             var requestOptions = {
                 method: 'POST',
                 headers: myHeaders,

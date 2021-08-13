@@ -102,7 +102,7 @@ app.prepare().then(async () => {
   router.get("(/_next/static/.*)", handleRequest); // Static content is clear
   router.get("/_next/webpack-hmr", handleRequest); // Webpack content is clear
   router.get("/shipping", async (ctx) => {
-    ctx.body = JSON.stringify( await getShipping());
+    ctx.body = await getShipping();
     ctx.res.statusCode = 200;
   }); // Webpack content is clear
   router.get("(.*)", async (ctx) => {
