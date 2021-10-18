@@ -92,13 +92,13 @@ const Index = ({ api, modal }) => {
   }
   const loadConfig = async () => {
     const respond = await shopify.getMetafields()
-    if (respond.type == 'error') {
+    if (respond.type === 'error') {
       modal.openModal({
         title: 'Error',
         text: 'Ocurrio un error con la instalacion, reinstale el app porfavor'
       })
     }
-    const metafields = respond?.data?.metafields.find((e) => e.key == 'configAveonline')
+    const metafields = respond?.data?.metafields.find((e) => e.key === 'configAveonline')
     if (metafields) {
       setConfig({ ...config, ...JSON.parse(metafields.value) })
       console.log('loadConfig')
@@ -196,7 +196,7 @@ const Index = ({ api, modal }) => {
               name='inputCuenta'
               title='Cuenta Seleccionada'
               description=''
-              value={config.option_cuenta.find((e) => e.value == config.cuenta).label}
+              value={config.option_cuenta.find((e) => e.value === config.cuenta).label}
               label=''
               type='text'
               btn='Cargar Cuentas'
@@ -218,7 +218,7 @@ const Index = ({ api, modal }) => {
               name='inputAgente'
               title='Agente Seleccionado'
               description=''
-              value={config.option_agente.find((e) => e.value == config.agente).label}
+              value={config.option_agente.find((e) => e.value === config.agente).label}
               label=''
               type='text'
               btn='Cargar Agentes'

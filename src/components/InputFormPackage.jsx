@@ -10,8 +10,6 @@ import {
 
 const InputFormPackage = (props) => {
   const {
-    id,
-    name,
     title,
     description,
     packages,
