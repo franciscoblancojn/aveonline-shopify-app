@@ -20,12 +20,12 @@ api.request = async (json, url = '', method = 'POST') => {
 }
 
 api.autentificate = async (state) => {
-  const json_send = {
+  const jsonSend = {
     tipo: 'auth',
     usuario: state.user,
     clave: state.password
   }
-  const res = await api.request(json_send, api.URL_autenticarusuario)
+  const res = await api.request(jsonSend, api.URL_autenticarusuario)
   return res
 }
 
@@ -36,29 +36,29 @@ api.getCuentas = async (state) => {
     text: 'Se cargaron correctamente las cuentas, seleccione una para configurar Aveonline'
 
   }
-  if (state.user == '') {
+  if (state.user === '') {
     result.title = 'Upps Ocurrio un Error'
     result.text = 'Debes ingresar un Usuario'
     return result
   }
-  if (state.password == '') {
+  if (state.password === '') {
     result.title = 'Upps Ocurrio un Error'
     result.text = 'Debes ingresar una Contraseña'
     return result
   }
   const r = await api.autentificate(state)
-  if (r.status == 'error') {
+  if (r.status === 'error') {
     result.title = 'Upps Ocurrio un Error'
     result.text = `Erro: ${r.message}`
     return result
   }
-  const add_cuenta = r.cuentas.map((e) => {
+  const addCuenta = r.cuentas.map((e) => {
     return {
       label: e.servicio,
       value: e.usuarios[0].id
     }
   })
-  result.option = result.option.concat(add_cuenta)
+  result.option = result.option.concat(addCuenta)
   return result
 }
 api.getAgentes = async (state) => {
@@ -68,29 +68,29 @@ api.getAgentes = async (state) => {
     text: 'Se cargaron correctamente los Agentes, seleccione uno para configurar Aveonline'
 
   }
-  if (state.cuenta == '') {
+  if (state.cuenta === '') {
     result.title = 'Upps Ocurrio un Error'
     result.text = 'Debes ingresar una Cuenta'
     return result
   }
   const autentificate = await api.autentificate(state)
-  if (autentificate.status == 'error') {
+  if (autentificate.status === 'error') {
     result.title = 'Upps Ocurrio un Error'
     result.text = `Erro: ${autentificate.message}`
     return result
   }
-  const json_send = {
+  const jsonSend = {
     tipo: 'listarAgentesPorEmpresaAuth',
     token: autentificate.token,
     idempresa: state.cuenta
   }
-  const r = await api.request(json_send, api.URL_agentes)
-  if (r.status == 'error') {
+  const r = await api.request(jsonSend, api.URL_agentes)
+  if (r.status === 'error') {
     result.title = 'Upps Ocurrio un Error'
     result.text = `Erro: ${r.message}`
     return result
   }
-  const add_value = r.agentes.map((e) => {
+  const addValue = r.agentes.map((e) => {
     return {
       label: e.nombre,
       value: e.id,
@@ -101,14 +101,14 @@ api.getAgentes = async (state) => {
       telefono: e.telefono
     }
   })
-  result.option = result.option.concat(add_value)
+  result.option = result.option.concat(addValue)
   return result
 }
 api.getConfig = async () => {
-  const json_send = {
+  const jsonSend = {
     shop: window.location.origin
   }
-  const res = await api.request(json_send, api.URL_startscoinc)
+  const res = await api.request(jsonSend, api.URL_startscoinc)
   return res
 }
 export default api
