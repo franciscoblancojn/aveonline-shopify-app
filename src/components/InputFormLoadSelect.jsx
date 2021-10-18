@@ -39,12 +39,12 @@ const InputFormLoadSelect = (props) => {
               <div className='contentBtn'>
                 <Stack distribution='trailing'>
                   <Button
-                      primary
-                      onClick={load}
-                      submit={false}
-                    >
-                      {btn}
-                    </Button>
+                    primary
+                    onClick={load}
+                    submit={false}
+                  >
+                    {btn}
+                  </Button>
                 </Stack>
               </div>
             </div>

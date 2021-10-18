@@ -27,7 +27,7 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE }) => {
     }
   }
   let token = await getToken()
-  if (token.type != 'error') {
+  if (token.type !== 'error') {
     token = token[0].token
   } else {
     return {
@@ -78,34 +78,34 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE }) => {
         text: 'Se cargaron correctamente las cuentas, seleccione una para configurar Aveonline'
 
       }
-      if (state.user == '') {
+      if (state.user === '') {
         result.title = 'Upps Ocurrio un Error'
         result.text = 'Debes ingresar un Usuario'
         return result
       }
-      if (state.password == '') {
+      if (state.password === '') {
         result.title = 'Upps Ocurrio un Error'
         result.text = 'Debes ingresar una Contraseña'
         return result
       }
       const r = await autentificate(state)
-      if (r.status == 'error') {
+      if (r.status === 'error') {
         result.title = 'Upps Ocurrio un Error'
         result.text = `Erro: ${r.message}`
         return result
       }
-      if (r.type == 'error') {
+      if (r.type === 'error') {
         result.title = 'Upps Ocurrio un Error'
         result.text = `Erro: ${r.error}`
         return result
       }
-      const add_cuenta = r.cuentas.map((e) => {
+      const addCuenta = r.cuentas.map((e) => {
         return {
           label: e.servicio,
           value: e.usuarios[0].id
         }
       })
-      result.value = result.value.concat(add_cuenta)
+      result.value = result.value.concat(addCuenta)
       return result
     }
     const getAgentes = async (state) => {
@@ -116,18 +116,18 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE }) => {
         text: 'Se cargaron correctamente los Agentes, seleccione uno para configurar Aveonline'
 
       }
-      if (state.cuenta == '') {
+      if (state.cuenta === '') {
         result.title = 'Upps Ocurrio un Error'
         result.text = 'Debes ingresar una Cuenta'
         return result
       }
       let r = await autentificate(state)
-      if (r.status == 'error') {
+      if (r.status === 'error') {
         result.title = 'Upps Ocurrio un Error'
         result.text = `Erro: ${r.message}`
         return result
       }
-      if (r.type == 'error') {
+      if (r.type === 'error') {
         result.title = 'Upps Ocurrio un Error'
         result.text = `Erro: ${r.error}`
         return result
@@ -141,17 +141,17 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE }) => {
         json,
         url: '/agentes.php'
       })
-      if (r.status == 'error') {
+      if (r.status === 'error') {
         result.title = 'Upps Ocurrio un Error'
         result.text = `Erro: ${r.message}`
         return result
       }
-      if (r.type == 'error') {
+      if (r.type === 'error') {
         result.title = 'Upps Ocurrio un Error'
         result.text = `Erro: ${r.error}`
         return result
       }
-      const add_value = r.agentes.map((e) => {
+      const addValue = r.agentes.map((e) => {
         return {
           label: e.nombre,
           value: e.id,
@@ -162,7 +162,7 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE }) => {
           telefono: e.telefono
         }
       })
-      result.value = result.value.concat(add_value)
+      result.value = result.value.concat(addValue)
       return result
     }
     return {
