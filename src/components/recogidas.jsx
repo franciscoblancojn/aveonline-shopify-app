@@ -10,7 +10,7 @@ import {
 	TextField,
 	FormLayout
 } from '@shopify/polaris';
-
+// import {CheckoutDomain as Domain, ShippingMethods, Configuration, Console} from '@shopify/scripts-checkout-apis';
 
 class Recogidas extends React.Component {
 	constructor(props){

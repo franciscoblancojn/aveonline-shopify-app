@@ -1,7 +1,6 @@
 const api = {};
 
-api.URL_autenticarusuario =
-    "https://aveonline.co/api/comunes/v1.0/autenticarusuario.php";
+api.URL_autenticarusuario = "https://aveonline.co/api/comunes/v1.0/autenticarusuario.php";
 api.URL_agentes = "https://aveonline.co/api/comunes/v1.0/agentes.php";
 
 api.request = async (json, url = "", method = "POST") => {
