@@ -1,49 +1,46 @@
-import {useState,useEffect} from 'react'
-import getConfig from 'next/config'
+import { useState, useEffect } from "react";
+import getConfig from "next/config";
 
-import Api from "@/api/api"
+import Api from "@/api/api";
 
-import Loader from "@/components/loader"
-import Error from "@/components/error"
-import Page from "@/components/page"
+import Loader from "@/components/loader";
+import Error from "@/components/error";
+import Page from "@/components/page";
 
-const Index = ({query}) => {
-	const [page, setPage] = useState(<Loader/>)
-	const load = async () => {
-		const {publicRuntimeConfig} = getConfig()
-		const {key,URLAPI,URLAVEONLINE} = publicRuntimeConfig
-		const {shop} = query
-		if(shop && key){
-			const api = await Api({shop,key,URLAPI,URLAVEONLINE})
-			if(api.type == "error"){
-				setPage(<Error>
-					<p>
-						Ocurrio un error, contactece con un desarrollador 
-					</p>
-				</Error>)
-			}else{
-				setPage(<Page api={api}/>)
-			}
-		}
-	}
-	useEffect(() => {
-		console.log("init load");
-		load()
-	}, [])
-	return <>
-		{page}
-	</>
-}
+const Index = ({ query }) => {
+    const [page, setPage] = useState(<Loader />);
+    const load = async () => {
+        const { publicRuntimeConfig } = getConfig();
+        const { key, URLAPI, URLAVEONLINE } = publicRuntimeConfig;
+        const { shop } = query;
+        if (shop && key) {
+            const api = await Api({ shop, key, URLAPI, URLAVEONLINE });
+            if (api.type == "error") {
+                setPage(
+                    <Error>
+                        <p>Ocurrio un error, contactece con un desarrollador</p>
+                    </Error>
+                );
+            } else {
+                setPage(<Page api={api} />);
+            }
+        }
+    };
+    useEffect(() => {
+        console.log("init load");
+        load();
+    }, []);
+    return <>{page}</>;
+};
 export async function getServerSideProps(context) {
-	const { query } = context;
-	return {
-		props:{ query }
-	}
+    const { query } = context;
+    return {
+        props: { query },
+    };
 }
 export default Index;
 
 // import Content from "../components/content"
-
 
 // import Pageconfig from "../components/config"
 // import Pagerecogidas from "../components/recogidas"
@@ -58,7 +55,7 @@ export default Index;
 // 			modal: false,
 // 			modalTitle: "",
 // 			modalText: "",
-	
+
 // 			loading: false,
 // 			spinnerLoading: (
 // 				<div className="loader">
@@ -87,20 +84,18 @@ export default Index;
 // 					</style>
 // 				</div>
 // 			),
-	
-	
-	
+
 // 			enabled: true,
-	
+
 // 			user: "",
 // 			password: "",
-	
+
 // 			dsnitre: "",
 // 			dsdirre: "",
 // 			dstelre: "",
 // 			dscelularre: "",
 // 			dscorreopre: "",
-	
+
 // 			cuenta: "",
 // 			option_cuenta: [
 // 				{
@@ -146,9 +141,9 @@ export default Index;
 // 	}
 // 	render() {
 // 		return (
-// 			<Tabs 
-// 			tabs={this.state.tabs} 
-// 			selected={this.state.tabSelected} 
+// 			<Tabs
+// 			tabs={this.state.tabs}
+// 			selected={this.state.tabSelected}
 // 			onSelect={(e)=>{
 // 				this.setState({tabSelected:e})
 // 			}}>

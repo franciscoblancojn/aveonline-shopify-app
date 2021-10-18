@@ -4,9 +4,9 @@
   "description": "Aveonlien app in Shopify",
   "scripts": {
     "test": "jest",
-    "dev": "cross-env NODE_ENV=development nodemon ./server/index.js --watch ./server/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon ./src/server/index.js --watch ./src/server/index.js",
     "build": "NEXT_TELEMETRY_DISABLED=1 next build",
-    "start": "cross-env NODE_ENV=production node ./server/index.js",
+    "start": "cross-env NODE_ENV=production node ./src/server/index.js",
     "serve": "shopify node serve",
     "lint": "npx standard src/",
     "format": "npx standard --fix src/"
