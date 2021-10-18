@@ -196,7 +196,7 @@ const Index = ({ api, modal }) => {
               name='inputCuenta'
               title='Cuenta Seleccionada'
               description=''
-              value={config.option_cuenta.find((e) => e.value === config.cuenta).label}
+              value={config.option_cuenta.find((e) => e.value == config.cuenta).label}
               label=''
               type='text'
               btn='Cargar Cuentas'
@@ -218,7 +218,7 @@ const Index = ({ api, modal }) => {
               name='inputAgente'
               title='Agente Seleccionado'
               description=''
-              value={config.option_agente.find((e) => e.value === config.agente).label}
+              value={config.option_agente.find((e) => e.value == config.agente).label}
               label=''
               type='text'
               btn='Cargar Agentes'
@@ -243,7 +243,7 @@ const Index = ({ api, modal }) => {
               label='Actualmente Valor Minimo esta '
               onChange={handleChange('valorMinimo')}
               enabled={config.valorMinimo}
-            />
+            /> 
             <div className='submit'>
               <Stack distribution='trailing'>
                 <Button primary submit>

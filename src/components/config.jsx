@@ -1,3 +1,4 @@
+import React from "react";
 import {
 	Button,
 	Form,
@@ -29,7 +30,7 @@ class Config extends React.Component {
 	render() {
 		return (
 			<div>
-				<Modal
+				{/* <Modal
 					open={this.state.modal}
 					onClose={this.closeModal}
 					title={this.state.modalTitle}
@@ -45,11 +46,11 @@ class Config extends React.Component {
 							</p>
 						</TextContainer>
 					</Modal.Section>
-				</Modal>
+				</Modal> */}
 				<Form onSubmit={this.handleSubmit}>
 					<Page>
 						<Layout>
-							<InputFormCheckbox
+							{/* <InputFormCheckbox
 								id="eneable"
 								name="eneable"
 								title="Habilitar/Deshabilitar"
@@ -180,7 +181,7 @@ class Config extends React.Component {
 								value={this.state.package}
 								changePackage={this.changePackage}
 								label="Paquetes"
-							></InputFormPackage>
+							></InputFormPackage> */}
 							<div className="submit">
 								<Stack distribution="trailing" >
 									<Button primary submit>
