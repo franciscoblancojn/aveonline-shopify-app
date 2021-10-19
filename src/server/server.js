@@ -121,20 +121,20 @@ app.prepare().then(async () => {
             await handleRequest(ctx);
         }
     });
-    router.post("/shipping",(req,res) => {
-        console.log(req.body);
-        res.send({
-                "rates": [
-                    {
-                        "service_name": "testing",
-                        "service_code": "ON",
-                        "total_price": "1295",
-                        "description": "This is the fastest option by far",
-                        "currency": "USD"
-                    }
-                ]
-            }
-        )
+    router.post("/shipping",(ctx) => {
+        console.log(ctx.req.body);
+        ctx.body = {
+            "rates": [
+                {
+                    "service_name": "testing",
+                    "service_code": "ON",
+                    "total_price": "1295",
+                    "description": "This is the fastest option by far",
+                    "currency": "USD"
+                }
+            ]
+        }
+        
     })
 
     server.use(router.allowedMethods());
