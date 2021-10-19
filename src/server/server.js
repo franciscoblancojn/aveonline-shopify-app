@@ -128,7 +128,7 @@ app.prepare().then(async () => {
                 {
                     "service_name": "Aveonline2",
                     "service_code": "Aveonline2",
-                    "total_price": "1295",
+                    "total_price": "1",
                     "description": "This is the fastest option by far",
                     "currency": "USD"
                 }
