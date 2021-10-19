@@ -1,4 +1,4 @@
-const Api = async ({ shop, key, URLAPI, URLAVEONLINE }) => {
+const Api = async ({ shop, key, URLAPI, URLAVEONLINE ,HOST}) => {
     console.log("init Api", { shop });
     const getToken = async () => {
         const myHeaders = new Headers();

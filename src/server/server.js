@@ -121,6 +121,20 @@ app.prepare().then(async () => {
             await handleRequest(ctx);
         }
     });
+    router.post("/shipping",(req,res) => {
+        res.send({
+                "rates": [
+                    {
+                        "service_name": "testing",
+                        "service_code": "ON",
+                        "total_price": "1295",
+                        "description": "This is the fastest option by far",
+                        "currency": "USD"
+                    }
+                ]
+            }
+        )
+    })
 
     server.use(router.allowedMethods());
     server.use(router.routes());

@@ -11,10 +11,10 @@ const Index = ({ query }) => {
     const [page, setPage] = useState(<Loader />);
     const load = async () => {
         const { publicRuntimeConfig } = getConfig();
-        const { key, URLAPI, URLAVEONLINE } = publicRuntimeConfig;
+        const { key, URLAPI, URLAVEONLINE, HOST } = publicRuntimeConfig;
         const { shop } = query;
         if (shop && key) {
-            const api = await Api({ shop, key, URLAPI, URLAVEONLINE });
+            const api = await Api({ shop, key, URLAPI, URLAVEONLINE ,HOST});
             if (api.type === "error") {
                 setPage(
                     <Error>
