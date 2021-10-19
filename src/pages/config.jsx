@@ -112,6 +112,9 @@ const Index = ({ api, modal }) => {
     }, []);
     return (
         <div>
+            <Button primary onClick={()=>{api.createShipping()}}>
+                Testing Shipping
+            </Button>
             <Form onSubmit={saveConfig}>
                 <Page>
                     <Layout>
