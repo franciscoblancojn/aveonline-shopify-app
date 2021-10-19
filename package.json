@@ -41,7 +41,6 @@
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "env-var": "^7.0.1",
-    "fs": "*",
     "graphql": "^15.6.1",
     "isomorphic-fetch": "^3.0.0",
     "koa": "^2.13.3",
@@ -76,5 +75,10 @@
     "*.{js,css,json,md}": [
       "prettier --write"
     ]
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }

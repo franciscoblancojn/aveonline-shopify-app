@@ -9,6 +9,7 @@ import InputFormLoadSelect from "@/components/InputFormLoadSelect";
 const Index = ({ api, modal }) => {
     const [aveonline, setAveonline] = useState(api.Aveonline());
     const [shopify, setShopify] = useState(api.Shopify());
+    const [shipping, setShipping] = useState(api.Shipping());
     const [id, setId] = useState(null);
     const [config, setConfig] = useState({
         eneable: false,
@@ -110,9 +111,12 @@ const Index = ({ api, modal }) => {
     useEffect(() => {
         loadConfig();
     }, []);
+    const createShipping = async () => {
+        await shipping.create()
+    }
     return (
         <div>
-            <Button primary onClick={()=>{api.createShipping()}}>
+            <Button primary onClick={createShipping}>
                 Testing Shipping
             </Button>
             <Form onSubmit={saveConfig}>

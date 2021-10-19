@@ -122,6 +122,7 @@ app.prepare().then(async () => {
         }
     });
     router.post("/shipping",(req,res) => {
+        console.log(req.body);
         res.send({
                 "rates": [
                     {

@@ -267,20 +267,24 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE ,HOST}) => {
             saveConfigAveonline,
         };
     };
-    const createShipping = async () => {
-        const r =  await createShipping({
-            shop, 
-            accessToken : token,
-            HOST
-        })
-        console.log(r);
-        return r
+    const Shipping = () => {
+        return {
+            create : async () => {
+                const r =  await createShipping({
+                    shop, 
+                    accessToken : token,
+                    HOST
+                })
+                console.log(r);
+                return r
+            }
+        }
     }
     return {
         type: "ok",
         Aveonline,
         Shopify,
-        createShipping
+        Shipping
     };
 };
 export default Api;
