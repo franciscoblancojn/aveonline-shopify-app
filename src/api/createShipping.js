@@ -1,6 +1,6 @@
 import Shopify, { DataType } from "@shopify/shopify-api";
 
-module.exports = async (shop, accessToken,HOST) => {
+module.exports = async ({shop, accessToken,HOST}) => {
     const client = new Shopify.Clients.Rest(shop, accessToken);
     const data = await client.post({
         path: "carrier_services",
