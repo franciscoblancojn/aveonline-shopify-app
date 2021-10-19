@@ -10,7 +10,8 @@
     "serve": "shopify node serve",
     "lint": "npx standard src/",
     "format": "npx standard --fix src/",
-    "push": "git push && git push gith"
+    "push": "git push && git push gith",
+    "shi": "node ./src/server/shi.js"
   },
   "repository": {
     "type": "git",

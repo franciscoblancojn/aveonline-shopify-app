@@ -122,12 +122,12 @@ app.prepare().then(async () => {
         }
     });
     router.post("/shipping",(ctx) => {
-        console.log(ctx.req.body);
+        console.log("[POST] /shipping");
         ctx.body = {
             "rates": [
                 {
-                    "service_name": "testing",
-                    "service_code": "ON",
+                    "service_name": "Aveonline2",
+                    "service_code": "Aveonline2",
                     "total_price": "1295",
                     "description": "This is the fastest option by far",
                     "currency": "USD"
