@@ -33,6 +33,7 @@
     "@shopify/scripts-checkout-apis": "^1.1.0",
     "@shopify/scripts-checkout-apis-temp": "^0.1.0",
     "@shopify/scripts-toolchain-as": "^6.1.0",
+    "@shopify/shopify-api": "^1.4.1",
     "ansi-regex": "^6.0.1",
     "apollo-boost": "^0.4.9",
     "assemblyscript": "^0.18.32",
