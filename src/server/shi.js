@@ -4,8 +4,8 @@ const ss = async ({shop, accessToken,HOST}) => {
     console.log({shop, accessToken,HOST});
     const json = {
         carrier_service:{
-            name: "Aveonline3",
-            callback_url: `${HOST}/shipping`,
+            name: "Aveonline",
+            callback_url: `https://aveonline.startscoinc.com/api/v1/shipping?shop=${shop}`,
             service_discovery: true,
         }
     }
@@ -24,8 +24,8 @@ const ss = async ({shop, accessToken,HOST}) => {
 };
 ss({
     HOST: "https://88af-181-33-130-72.ngrok.io",
-    accessToken: "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",
-    shop: "testingapps13.myshopify.com",
+    accessToken: "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",
+    shop: "testingaveonline.myshopify.com",
 })
 // let headersList = {
 //     "Accept": "*/*",

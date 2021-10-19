@@ -46,18 +46,18 @@ app.prepare().then(async () => {
                 ACTIVE_SHOPIFY_SHOPS[shop] = scope;
 
                 const body = {
-                    shop,
                     token: accessToken,
-                    key: process.env.APIKEY,
                 };
-                await fetch(process.env.URLAPI + "/saveToken", {
+                const j = await fetch(`${process.env.URLAPI}/tokens?shop=${shop}`, {
                     body: JSON.stringify(body),
                     headers: {
                         "Content-Type": "application/json",
+                        apikey: process.env.APIKEY,
                     },
                     method: "POST",
                 });
-                console.log(1);
+                const r = await j.json()
+                console.log("saveToken",r);
 
                 const response = await Shopify.Webhooks.Registry.register({
                     shop,
