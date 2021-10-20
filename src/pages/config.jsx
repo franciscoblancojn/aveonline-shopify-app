@@ -75,6 +75,7 @@ const Index = ({ api, modal }) => {
                 title: "Save",
                 text: "Configuraciones Guardadas",
             });
+            //generate shipping
         }
     };
     const handleChange = (field) => {
@@ -115,14 +116,8 @@ const Index = ({ api, modal }) => {
     useEffect(() => {
         loadConfig();
     }, []);
-    const createShipping = async () => {
-        await shipping.create()
-    }
     return (
         <div>
-            <Button primary onClick={createShipping}>
-                Testing Shipping
-            </Button>
             <Form onSubmit={saveConfig}>
                 <Page>
                     <Layout>

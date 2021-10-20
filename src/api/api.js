@@ -156,7 +156,7 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE, HOST }) => {
                 if(method!=="GET"){
                     requestOptions.body = JSON.stringify(json)
                 }
-                console.log(requestOptions);
+                
                 const respond = await fetch(`${URLAPI}${rute}`,requestOptions)
                 const result = await respond.json()
                 return result
