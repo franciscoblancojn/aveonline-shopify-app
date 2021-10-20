@@ -145,6 +145,7 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE, HOST }) => {
         const request = async ({method="GET",json={},rute=""}) => {
             try {
                 var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
                 myHeaders.append("apikey",key);
 
                 const requestOptions = {
@@ -155,7 +156,7 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE, HOST }) => {
                 if(method!=="GET"){
                     requestOptions.body = JSON.stringify(json)
                 }
-
+                console.log(requestOptions);
                 const respond = await fetch(`${URLAPI}${rute}`,requestOptions)
                 const result = await respond.json()
                 return result

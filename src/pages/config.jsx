@@ -63,12 +63,19 @@ const Index = ({ api, modal }) => {
     const saveConfig = async () => {
         console.log(config);
         console.log("saveConfig");
-        
+        const respond = await app.saveConfig(config);
         console.log(respond);
-        modal.openModal({
-            title: "Save",
-            text: "Configuraciones Guardadas",
-        });
+        if (respond.type === "error") {
+            modal.openModal({
+                title: "Error",
+                text: respond.msj,
+            });
+        }else{
+            modal.openModal({
+                title: "Save",
+                text: "Configuraciones Guardadas",
+            });
+        }
     };
     const handleChange = (field) => {
         return (value) => setConfig({ ...config, [field]: value });
@@ -99,11 +106,11 @@ const Index = ({ api, modal }) => {
                 title: "Error",
                 text: "Ocurrio un error con la instalacion, reinstale el app porfavor",
             });
+        }else{
+            const configShop = respond.result.config || {}
+            setConfig({ ...config, ...configShop });
+            console.log("Load Config");
         }
-        // if (metafields) {
-        //     setConfig({ ...config, ...JSON.parse(metafields.value) });
-        //     console.log("loadConfig");
-        // }
     };
     useEffect(() => {
         loadConfig();
