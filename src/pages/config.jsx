@@ -8,8 +8,7 @@ import InputFormLoadSelect from "@/components/InputFormLoadSelect";
 
 const Index = ({ api, modal }) => {
     const [aveonline, setAveonline] = useState(api.Aveonline());
-    const [shopify, setShopify] = useState(api.Shopify());
-    const [shipping, setShipping] = useState(api.Shipping());
+    const [app, setApp] = useState(api.app());
     const [id, setId] = useState(null);
     const [config, setConfig] = useState({
         eneable: false,
@@ -64,7 +63,7 @@ const Index = ({ api, modal }) => {
     const saveConfig = async () => {
         console.log(config);
         console.log("saveConfig");
-        const respond = await shopify.saveConfigAveonline(config, id);
+        
         console.log(respond);
         modal.openModal({
             title: "Save",
@@ -93,20 +92,18 @@ const Index = ({ api, modal }) => {
         setConfig({ ...config, [respond.key]: respond.value });
     };
     const loadConfig = async () => {
-        const respond = await shopify.getMetafields();
+        const respond = await app.getShop();
+        console.log(respond);
         if (respond.type === "error") {
             modal.openModal({
                 title: "Error",
                 text: "Ocurrio un error con la instalacion, reinstale el app porfavor",
             });
         }
-        const metafields = respond?.data?.metafields.find(
-            (e) => e.key === "configAveonline"
-        );
-        if (metafields) {
-            setConfig({ ...config, ...JSON.parse(metafields.value) });
-            console.log("loadConfig");
-        }
+        // if (metafields) {
+        //     setConfig({ ...config, ...JSON.parse(metafields.value) });
+        //     console.log("loadConfig");
+        // }
     };
     useEffect(() => {
         loadConfig();

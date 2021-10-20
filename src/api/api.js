@@ -169,9 +169,20 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE, HOST }) => {
             }
         }
         const getShop = async () => {
-            return await request({
+            const result = await request({
                 rute:`/shop?shop=${shop}`
             })
+            if(result.type == "ok"){
+                result.result = result.result[0]
+                if(!result.result){
+                    return {
+                        type:"error",
+                        error:"shop invalid",
+                        msj:"shop invalid"
+                    }
+                }
+            }
+            return result
         }
         const saveConfig = async (json) => {
             return await request({
