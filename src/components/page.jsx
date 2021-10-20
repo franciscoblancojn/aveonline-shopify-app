@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Content from '@/components/content'
 
 import Pageconfig from '@/pages/config'
+import Pageproducts from '@/pages/products'
 import Pagerecogidas from '@/components/recogidas'
 import Pagerelaciones from '@/components/relaciones'
 
@@ -27,6 +28,11 @@ const Index = ({ api }) => {
       id: 'config',
       content: 'Configuraciones',
       page: (<Pageconfig api={api} modal={controllerModal} />)
+    },
+    {
+      id: 'products',
+      content: 'Productos',
+      page: (<Pageproducts api={api} modal={controllerModal} />)
     },
     {
       id: 'recogidas',
