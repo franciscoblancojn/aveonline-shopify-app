@@ -5,20 +5,27 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE ,HOST}) => {
     const getToken = async () => {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        const raw = JSON.stringify({
-            shop,
-            key,
-        });
+        myHeaders.append("apikey", key);
         const requestOptions = {
-            method: "POST",
+            method: "GET",
             headers: myHeaders,
-            body: raw,
             redirect: "follow",
         };
         try {
-            const response = await fetch(URLAPI + "/getToken", requestOptions);
+            const response = await fetch(`${URLAPI}/shop?shop=${shop}`, requestOptions);
             const result = await response.json();
-            return result;
+            if(result.type == "error"){
+                throw new Error(result.msj)
+            }
+            const shopResult = result.result[0]
+            if(!shopResult){
+                throw new Error("Shop Invalid")
+            }
+            const {token} = shopResult
+            return {
+                type: "ok",
+                token
+            };
         } catch (error) {
             console.log("error", error);
             return {
@@ -27,14 +34,14 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE ,HOST}) => {
             };
         }
     };
-    let token = await getToken();
-    if (token.type !== "error") {
-        token = token[0].token;
-    } else {
+    const result = await getToken();
+    if (result.type === "error") {
         return {
             type: "error",
+            result
         };
     }
+    const token = result.token
     const Aveonline = () => {
         const request = async ({ json = {}, url = "", method = "POST" }) => {
             const myHeaders = new Headers();

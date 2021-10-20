@@ -6,7 +6,6 @@ import Shopify, { ApiVersion } from "@shopify/shopify-api";
 import Koa from "koa";
 import next from "next";
 import Router from "koa-router";
-import { getShipping } from "./shipping";
 
 const fetch = require("node-fetch");
 
@@ -105,10 +104,7 @@ app.prepare().then(async () => {
 
     router.get("(/_next/static/.*)", handleRequest); // Static content is clear
     router.get("/_next/webpack-hmr", handleRequest); // Webpack content is clear
-    router.get("/shipping", async (ctx) => {
-        ctx.body = await getShipping();
-        ctx.res.statusCode = 200;
-    }); // Webpack content is clear
+    
     router.get("(.*)", async (ctx) => {
         const shop = ctx.query.shop;
 
@@ -121,22 +117,6 @@ app.prepare().then(async () => {
             await handleRequest(ctx);
         }
     });
-    router.post("/shipping",(ctx) => {
-        console.log("[POST] /shipping");
-        ctx.body = {
-            "rates": [
-                {
-                    "service_name": "Aveonline2",
-                    "service_code": "Aveonline2",
-                    "total_price": "1",
-                    "description": "This is the fastest option by far",
-                    "currency": "USD"
-                }
-            ]
-        }
-        
-    })
-
     server.use(router.allowedMethods());
     server.use(router.routes());
     server.listen(port, () => {
