@@ -71,11 +71,19 @@ const Index = ({ api, modal }) => {
                 text: respond.msj,
             });
         }else{
-            modal.openModal({
-                title: "Save",
-                text: "Configuraciones Guardadas",
-            });
             //generate shipping
+            const result = await app.generateShipping()
+            if (respond.type === "error") {
+                modal.openModal({
+                    title: "Error",
+                    text: respond.msj,
+                });
+            }else{
+                modal.openModal({
+                    title: "Save",
+                    text: "Configuraciones Guardadas",
+                });
+            }
         }
     };
     const handleChange = (field) => {

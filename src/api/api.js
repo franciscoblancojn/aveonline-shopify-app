@@ -192,9 +192,16 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE, HOST }) => {
                 json
             })
         }
+        const generateShipping = async () => {
+            return await request({
+                rute:`/shipping/generate?shop=${shop}`,
+                method:"POST",
+            })
+        }
         return {
             getShop,
             saveConfig,
+            generateShipping
         }
     };
     return {
