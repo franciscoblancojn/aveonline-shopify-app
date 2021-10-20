@@ -1,47 +1,7 @@
 import createShipping from "./createShipping";
 
-const Api = async ({ shop, key, URLAPI, URLAVEONLINE ,HOST}) => {
+const Api = async ({ shop, key, URLAPI, URLAVEONLINE, HOST }) => {
     console.log("init Api", { shop });
-    const getToken = async () => {
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("apikey", key);
-        const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-            redirect: "follow",
-        };
-        try {
-            const response = await fetch(`${URLAPI}/shop?shop=${shop}`, requestOptions);
-            const result = await response.json();
-            if(result.type == "error"){
-                throw new Error(result.msj)
-            }
-            const shopResult = result.result[0]
-            if(!shopResult){
-                throw new Error("Shop Invalid")
-            }
-            const {token} = shopResult
-            return {
-                type: "ok",
-                token
-            };
-        } catch (error) {
-            console.log("error", error);
-            return {
-                type: "error",
-                error,
-            };
-        }
-    };
-    const result = await getToken();
-    if (result.type === "error") {
-        return {
-            type: "error",
-            result
-        };
-    }
-    const token = result.token
     const Aveonline = () => {
         const request = async ({ json = {}, url = "", method = "POST" }) => {
             const myHeaders = new Headers();
@@ -86,8 +46,7 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE ,HOST}) => {
                 key: "option_cuenta",
                 value: state.default_option_cuenta,
                 title: "Carga Finalizada",
-                text:
-                    "Se cargaron correctamente las cuentas, seleccione una para configurar Aveonline",
+                text: "Se cargaron correctamente las cuentas, seleccione una para configurar Aveonline",
             };
             if (state.user === "") {
                 result.title = "Upps Ocurrio un Error";
@@ -124,8 +83,7 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE ,HOST}) => {
                 key: "option_agente",
                 value: state.default_option_agente,
                 title: "Carga Finalizada",
-                text:
-                    "Se cargaron correctamente los Agentes, seleccione uno para configurar Aveonline",
+                text: "Se cargaron correctamente los Agentes, seleccione uno para configurar Aveonline",
             };
             if (state.cuenta === "") {
                 result.title = "Upps Ocurrio un Error";
@@ -182,116 +140,55 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE ,HOST}) => {
             getAgentes,
         };
     };
-
-    const Shopify = () => {
-        const VESIONAPISHOPIFY = "2021-01";
-        const URLAPISHOPIFY = `https://${shop}/admin/api/${VESIONAPISHOPIFY}/`;
-        const request = async ({ data = "", url = "", method = "get" }) => {
-            const myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
-            const raw = JSON.stringify({
-                key,
-                config: {
-                    method: method,
-                    url: URLAPISHOPIFY + url,
-                    headers: {
-                        "X-Shopify-Access-Token": token,
-                    },
-                    data,
-                },
-            });
-            console.log(raw);
-            const requestOptions = {
-                method: "POST",
-                headers: myHeaders,
-                body: raw,
-                redirect: "follow",
-            };
+    const app = () => {
+        console.log("Init App");
+        const request = async ({method="GET",json={},rute=""}) => {
             try {
-                const response = await fetch(
-                    URLAPI + "/request",
-                    requestOptions
-                );
-                const result = await response.json();
-                return result;
+                var myHeaders = new Headers();
+                myHeaders.append("apikey",key);
+
+                const requestOptions = {
+                    method,
+                    headers: myHeaders,
+                    redirect: "follow",
+                };
+                if(method!=="GET"){
+                    requestOptions.body = JSON.stringify(json)
+                }
+
+                const respond = await fetch(`${URLAPI}${rute}`,requestOptions)
+                const result = await respond.json()
+                return result
             } catch (error) {
                 console.log("error", error);
                 return {
                     type: "error",
+                    msj:`${error}`,
                     error,
                 };
             }
-        };
-        const getMetafields = async () => {
-            const respond = await request({
-                url: "metafields.json",
-                method: "get",
-            });
-            return respond;
-        };
-        const postMetafields = async (config) => {
-            const respond = await request({
-                url: "metafields.json",
-                method: "post",
-                data: {
-                    metafield: {
-                        namespace: "configAveonline",
-                        key: "configAveonline",
-                        value: JSON.stringify(config),
-                        value_type: "string",
-                    },
-                },
-            });
-            return respond;
-        };
-        const putMetafields = async (config, id) => {
-            const respond = await request({
-                url: "metafields.json",
-                method: "put",
-                data: {
-                    metafield: {
-                        id,
-                        namespace: "configAveonline",
-                        key: "configAveonline",
-                        value: JSON.stringify(config),
-                        value_type: "string",
-                    },
-                },
-            });
-            return respond;
-        };
-        const saveConfigAveonline = async (config, id) => {
-            if (id) {
-                return await putMetafields(config, id);
-            } else {
-                return await postMetafields(config);
-            }
-        };
-        return {
-            getMetafields,
-            postMetafields,
-            putMetafields,
-            saveConfigAveonline,
-        };
-    };
-    const Shipping = () => {
-        return {
-            create : async () => {
-                const r =  await createShipping({
-                    shop, 
-                    accessToken : token,
-                    HOST
-                })
-                console.log(r);
-                return r
-            }
         }
-    }
+        const getShop = async () => {
+            return await request({
+                rute:`/shop?shop=${shop}`
+            })
+        }
+        const saveConfig = async (json) => {
+            return await request({
+                rute:`/config?shop=${shop}`,
+                method:"POST",
+                json
+            })
+        }
+        return {
+            getShop,
+            saveConfig,
+        }
+    };
     return {
         type: "ok",
         Aveonline,
-        Shopify,
-        Shipping
+        app
     };
 };
 export default Api;
