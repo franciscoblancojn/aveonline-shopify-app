@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 const Products = ({ api, modal }) => {
     const [app, setApp] = useState(api.app());
-    const [products, setProducts] = useState([])
+    const [products, setProducts] = useState(null)
     const loadProducts = async () => {
         const result = await app.getProducts()
         console.log(result);
@@ -19,15 +19,30 @@ const Products = ({ api, modal }) => {
             console.log("Load Products");
         }
     }
-    useEffect(() => {
-        //loadProducts()
-    }, [])
     return (
         <div>
             <Page>
-                <h1>Products</h1>
-                {JSON.stringify(products)}
+                {
+                    products === null ?
+                    <Button className="centerFixed" primary onClick={loadProducts}>Load Products</Button>
+                    :
+                    <>
+
+                    </>
+                }
             </Page>
+            <style jsx>
+                {`
+                    .centerFixed{
+                        top: 0;
+                        left:0;
+                        right:0;
+                        bottom:0;
+                        margin:auto;
+                        position:fixed;
+                    }
+                `}
+            </style>
         </div>
     )
 }
