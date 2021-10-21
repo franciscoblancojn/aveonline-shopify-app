@@ -198,10 +198,17 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE, HOST }) => {
                 method:"POST",
             })
         }
+        const getProducts = async () => {
+            return await request({
+                rute:`/products?shop=${shop}`,
+                method:"GET",
+            })
+        }
         return {
             getShop,
             saveConfig,
-            generateShipping
+            generateShipping,
+            getProducts,
         }
     };
     return {
