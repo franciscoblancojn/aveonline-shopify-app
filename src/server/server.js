@@ -15,7 +15,7 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({
     dev,
 });
-app.set('port', port)
+
 const handle = app.getRequestHandler();
 
 Shopify.Context.initialize({
