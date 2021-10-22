@@ -8,7 +8,7 @@ import Pageproducts from '@/pages/products'
 import Pagerecogidas from '@/components/recogidas'
 import Pagerelaciones from '@/components/relaciones'
 
-const Index = ({ api }) => {
+const Index = ({ api , shop}) => {
   const [indexTab, setIndexTab] = useState(0)
   const [configModal, setConfigModal] = useState({
     open: false,
@@ -32,7 +32,7 @@ const Index = ({ api }) => {
     {
       id: 'products',
       content: 'Productos',
-      page: (<Pageproducts api={api} modal={controllerModal} />)
+      page: (<Pageproducts api={api} modal={controllerModal} shop={shop}/>)
     },
     {
       id: 'recogidas',

@@ -22,7 +22,7 @@ const Index = ({ query }) => {
                     </Error>
                 );
             } else {
-                setPage(<Page api={api} />);
+                setPage(<Page api={api} shop={shop}/>);
             }
         }
     };
