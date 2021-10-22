@@ -204,11 +204,19 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE, HOST }) => {
                 method:"GET",
             })
         }
+        const saveProducts = async (json) => {
+            return await request({
+                rute:`/products?shop=${shop}`,
+                method:"POST",
+                json
+            })
+        }
         return {
             getShop,
             saveConfig,
             generateShipping,
             getProducts,
+            saveProducts,
         }
     };
     return {

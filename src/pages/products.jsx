@@ -71,6 +71,19 @@ const Products = ({ api, modal, shop }) => {
     }
     const saveProducts = async () => {
         console.log(dataProducts);
+        const result = await app.saveProducts(dataProducts)
+        console.log(result);
+        if (result.type === "error") {
+            modal.openModal({
+                title: "Error",
+                text: "Ocurrio un error con la instalacion, reinstale el app porfavor",
+            });
+        }else{
+            modal.openModal({
+                title: "Save Products",
+                text: "Products Guardados",
+            });
+        }
     }
     const saveProduct = (data) => {
         const newDataProducts = dataProducts.map((e)=>{
