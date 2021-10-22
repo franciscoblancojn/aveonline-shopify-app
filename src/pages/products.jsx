@@ -1,4 +1,4 @@
-import { Button, TextField, Card, Heading, Link, ButtonGroup } from "@shopify/polaris";
+import { Button, TextField, Card, Heading, Link, ButtonGroup, TextStyle} from "@shopify/polaris";
 import { useState, useEffect } from "react";
 
 import Loader from "@/components/loader";
@@ -38,6 +38,7 @@ const ItemProduct = ({parent,variant,shop,save}) => {
             <td className={classn}>{data.id}</td>
             <td className={classn}>{data.title}</td>
             <td className={classn}>{data.sku}</td>
+            <td className={classn}><InputNumber placeholder="Valor Declarado" value={data.valorDeclarado} handleChange={changeValue('valorDeclarado')} prefix="COP"/></td>
             <td className={classn}><InputNumber placeholder="weigth" value={data.weigth} handleChange={changeValue('weigth')} prefix="kg"/></td>
             <td className={classn}><InputNumber placeholder="width" value={data.width} handleChange={changeValue('width')} prefix="cm"/></td>
             <td className={classn}><InputNumber placeholder="height" value={data.height} handleChange={changeValue('height')} prefix="cm"/></td>
@@ -135,7 +136,6 @@ const Products = ({ api, modal, shop }) => {
     }
     const cotizarAll = () => {
         const btnAll = document.querySelectorAll(".contentBtnCotizar button:not(.Polaris-Button--primary)")
-        console.log(btnAll);
         btnAll.forEach(ele => {
             ele.click()
         })
@@ -162,6 +162,11 @@ const Products = ({ api, modal, shop }) => {
                                     <Button primary onClick={saveProducts}>Save</Button>
                                 </ButtonGroup>
                             </div>
+                            <div>
+                                <TextStyle variation="subdued">
+                                    <strong>NOTA</strong>: si no define <strong>Valor Declarado</strong> se tomara como valor el <strong>Precio</strong> del producto
+                                </TextStyle>
+                            </div>
                             <br />
                             <Card>
                                 <table className="Polaris-DataTable__Table">
@@ -172,10 +177,11 @@ const Products = ({ api, modal, shop }) => {
                                             <th className={classTh}>Variant Id</th>
                                             <th className={classTh}>Variant</th>
                                             <th className={classTh}>Sku</th>
-                                            <th className={classTh}>weigth</th>
-                                            <th className={classTh}>width</th>
-                                            <th className={classTh}>height</th>
-                                            <th className={classTh}>length</th>
+                                            <th className={classTh}>Valor Declarado</th>
+                                            <th className={classTh}>Weigth</th>
+                                            <th className={classTh}>Width</th>
+                                            <th className={classTh}>Height</th>
+                                            <th className={classTh}>Length</th>
                                             <th className={classTh}>Cotizable</th>
                                         </tr>
                                     </thead>
