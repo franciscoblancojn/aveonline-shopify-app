@@ -70,13 +70,26 @@ const Products = ({ api, modal, shop }) => {
         }
     }
     const saveProducts = async () => {
+        var sw = false
+        dataProducts.forEach((e)=>{
+            if(e.weigth && e.width && e.height && e.length){
+                modal.openModal({
+                    title: "Error",
+                    text: "Debe ingresar weigth, width, height and length",
+                });
+                sw = true
+            }
+        })
+        if(sw){
+            return;
+        }
         console.log(dataProducts);
         const result = await app.saveProducts(dataProducts)
         console.log(result);
         if (result.type === "error") {
             modal.openModal({
                 title: "Error",
-                text: "Ocurrio un error con la instalacion, reinstale el app porfavor",
+                text: "Ocurrio un error al guardar los productos",
             });
         }else{
             modal.openModal({
