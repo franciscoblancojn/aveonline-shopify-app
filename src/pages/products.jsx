@@ -1,4 +1,4 @@
-import { Button, TextField, Card, Heading, Link } from "@shopify/polaris";
+import { Button, TextField, Card, Heading, Link, SettingToggle } from "@shopify/polaris";
 import { useState, useEffect } from "react";
 
 import Loader from "@/components/loader";
@@ -42,6 +42,15 @@ const ItemProduct = ({parent,variant,shop,save}) => {
             <td className={classn}><InputNumber placeholder="width" value={data.width} handleChange={changeValue('width')} prefix="cm"/></td>
             <td className={classn}><InputNumber placeholder="height" value={data.height} handleChange={changeValue('height')} prefix="cm"/></td>
             <td className={classn}><InputNumber placeholder="length" value={data.length} handleChange={changeValue('length')} prefix="cm"/></td>
+            <td className={classn}>
+                <Button
+                    onClick={()=>{changeValue('cotizar')(!data.cotizar)}}
+                    primary={data.cotizar}
+                    fullWidth
+                >
+                    {data.cotizar ? "SI" : "NO"}
+                </Button>
+            </td>
         </tr>
     )
 }
@@ -72,18 +81,19 @@ const Products = ({ api, modal, shop }) => {
     const saveProducts = async () => {
         var sw = false
         dataProducts.forEach((e)=>{
-            if(e.weigth && e.width && e.height && e.length){
+            if(!(e.weigth && e.width && e.height && e.length) && e.cotizar){
                 modal.openModal({
-                    title: "Error",
+                    title: "Error, "+e.id,
                     text: "Debe ingresar weigth, width, height and length",
                 });
                 sw = true
+                return;
             }
         })
         if(sw){
             return;
         }
-        console.log(dataProducts);
+        console.log("dataProducts",dataProducts);
         const result = await app.saveProducts(dataProducts)
         console.log(result);
         if (result.type === "error") {
@@ -143,6 +153,7 @@ const Products = ({ api, modal, shop }) => {
                                             <th className={classTh}>width</th>
                                             <th className={classTh}>height</th>
                                             <th className={classTh}>length</th>
+                                            <th className={classTh}>Cotizable</th>
                                         </tr>
                                     </thead>
                                     <tbody>
