@@ -1,4 +1,4 @@
-import { Button, TextField, Card, Heading, Link, SettingToggle } from "@shopify/polaris";
+import { Button, TextField, Card, Heading, Link, ButtonGroup } from "@shopify/polaris";
 import { useState, useEffect } from "react";
 
 import Loader from "@/components/loader";
@@ -42,7 +42,7 @@ const ItemProduct = ({parent,variant,shop,save}) => {
             <td className={classn}><InputNumber placeholder="width" value={data.width} handleChange={changeValue('width')} prefix="cm"/></td>
             <td className={classn}><InputNumber placeholder="height" value={data.height} handleChange={changeValue('height')} prefix="cm"/></td>
             <td className={classn}><InputNumber placeholder="length" value={data.length} handleChange={changeValue('length')} prefix="cm"/></td>
-            <td className={classn}>
+            <td className={classn + " contentBtnCotizar"}>
                 <Button
                     onClick={()=>{changeValue('cotizar')(!data.cotizar)}}
                     primary={data.cotizar}
@@ -68,14 +68,27 @@ const Products = ({ api, modal, shop }) => {
         if (result.type === "error") {
             modal.openModal({
                 title: "Error",
-                text: "Ocurrio un error con la instalacion, reinstale el app porfavor",
+                text: "Ocurrio un error con la carga de Productos",
             });
         }else{
             const newProducts = result.products
             console.log(newProducts);
             setProducts([...products,...newProducts])
-            console.log("Load Products");
-            setLoader(false)
+
+            const respond = await app.getShop()
+            console.log("[SHOP]",respond);
+            if (respond.type === "error") {
+                modal.openModal({
+                    title: "Error",
+                    text: "Ocurrio un error con la carga de Productos",
+                });
+            }else{
+                const newProductsApi = respond.result.products
+                console.log(newProductsApi);
+                setDataProducts(newProductsApi)
+                console.log("Load Products");
+                setLoader(false)
+            }
         }
     }
     const saveProducts = async () => {
@@ -120,6 +133,13 @@ const Products = ({ api, modal, shop }) => {
         }
         setDataProducts(newDataProducts)
     }
+    const cotizarAll = () => {
+        const btnAll = document.querySelectorAll(".contentBtnCotizar button:not(.Polaris-Button--primary)")
+        console.log(btnAll);
+        btnAll.forEach(ele => {
+            ele.click()
+        })
+    }
     const classTh = "Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--firstColumn Polaris-DataTable__Cell--header"
     return (
         <div>
@@ -137,7 +157,10 @@ const Products = ({ api, modal, shop }) => {
                         <div style={{padding:"20px"}}>
                             <div style={{display:"flex",justifyContent:"space-between"}}>
                                 <Heading element="h1">Products</Heading>
-                                <Button primary onClick={saveProducts}>Save</Button>
+                                <ButtonGroup segmented>
+                                    <Button onClick={cotizarAll}>Cotizar Todos</Button>
+                                    <Button primary onClick={saveProducts}>Save</Button>
+                                </ButtonGroup>
                             </div>
                             <br />
                             <Card>
