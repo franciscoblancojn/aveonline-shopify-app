@@ -7,6 +7,7 @@ import Pageconfig from '@/pages/config'
 import Pageproducts from '@/pages/products'
 import Pagerecogidas from '@/components/recogidas'
 import Pagerelaciones from '@/components/relaciones'
+import PageErrorCotizar from '@/pages/errorCotizar'
 
 const Index = ({ api , shop}) => {
   const [indexTab, setIndexTab] = useState(0)
@@ -43,7 +44,12 @@ const Index = ({ api , shop}) => {
       id: 'relaciones',
       content: 'Relaciones',
       page: (<Pagerelaciones modal={controllerModal} />)
-    }
+    },
+    {
+      id: 'errorsCotizar',
+      content: 'Errores de Cotizacion',
+      page: (<PageErrorCotizar api={api} modal={controllerModal} shop={shop}/>)
+    },
   ]
   return (
     <Tabs
