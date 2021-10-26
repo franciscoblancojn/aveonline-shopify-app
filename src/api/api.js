@@ -211,12 +211,19 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE, HOST }) => {
                 json
             })
         }
+        const getOrders = async () => {
+            return await request({
+                rute:`/orders?shop=${shop}`,
+                method:"GET",
+            })
+        }
         return {
             getShop,
             saveConfig,
             generateShipping,
             getProducts,
             saveProducts,
+            getOrders,
         }
     };
     return {

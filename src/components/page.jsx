@@ -5,7 +5,7 @@ import Content from '@/components/content'
 
 import Pageconfig from '@/pages/config'
 import Pageproducts from '@/pages/products'
-import Pagerecogidas from '@/components/recogidas'
+import Pagerecogidas from '@/pages/recogidas'
 import Pagerelaciones from '@/components/relaciones'
 import PageErrorCotizar from '@/pages/errorCotizar'
 
@@ -38,7 +38,7 @@ const Index = ({ api , shop}) => {
     {
       id: 'recogidas',
       content: 'Recogidas',
-      page: (<Pagerecogidas modal={controllerModal} />)
+      page: (<Pagerecogidas api={api} modal={controllerModal} shop={shop} />)
     },
     {
       id: 'relaciones',
