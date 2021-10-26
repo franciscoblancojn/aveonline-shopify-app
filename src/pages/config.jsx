@@ -73,16 +73,25 @@ const Index = ({ api, modal }) => {
         }else{
             //generate shipping
             const result = await app.generateShipping()
-            if (respond.type === "error") {
+            if (result.type === "error") {
                 modal.openModal({
                     title: "Error",
-                    text: respond.msj,
+                    text: result.msj,
                 });
             }else{
-                modal.openModal({
-                    title: "Save",
-                    text: "Configuraciones Guardadas",
-                });
+                //generate hook order
+                const resultHook = await app.addHookCreateOrder()
+                if (resultHook.type === "error") {
+                    modal.openModal({
+                        title: "Error",
+                        text: resultHook.msj,
+                    });
+                }else{
+                    modal.openModal({
+                        title: "Save",
+                        text: "Configuraciones Guardadas",
+                    });
+                }
             }
         }
     };
