@@ -217,6 +217,12 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE, HOST }) => {
                 method:"GET",
             })
         }
+        const addHookCreateOrder = async () => {
+            return await request({
+                rute:`/orders/envent/create?shop=${shop}`,
+                method:"POST",
+            })
+        }
         return {
             getShop,
             saveConfig,
@@ -224,6 +230,7 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE, HOST }) => {
             getProducts,
             saveProducts,
             getOrders,
+            addHookCreateOrder
         }
     };
     return {
