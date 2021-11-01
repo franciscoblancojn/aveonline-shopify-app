@@ -6,7 +6,7 @@ import Content from '@/components/content'
 import Pageconfig from '@/pages/config'
 import Pageproducts from '@/pages/products'
 import Pagerecogidas from '@/pages/recogidas'
-import Pagerelaciones from '@/components/relaciones'
+import Pagerelaciones from '@/pages/relaciones'
 import PageErrors from '@/pages/errors'
 
 const Index = ({ api , shop}) => {
@@ -43,7 +43,7 @@ const Index = ({ api , shop}) => {
     {
       id: 'relaciones',
       content: 'Relaciones',
-      page: (<Pagerelaciones modal={controllerModal} />)
+      page: (<Pagerelaciones api={api} modal={controllerModal} shop={shop} />)
     },
     {
       id: 'errors',
