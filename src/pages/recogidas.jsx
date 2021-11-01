@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 
 import Loader from "@/components/loader";
 
-const ItemOrder = ({order,shop}) => {
+const ItemOrder = ({order,shop,onChange}) => {
     const classn = "Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--firstColumn"
     return (
         <tr>
-            <td className={classn} style={{width:"20px"}}><input type="checkbox" name="" id={order.id_order} /></td>
+            <td className={classn} style={{width:"20px"}}><input type="checkbox" name="" id={order.id_order} onChange={onChange(order.id_order)}/></td>
             <td className={classn}><a href={`https://${shop}/admin/orders/${order.id_order}`} target="_blank">{order.id_order}</a></td>
             <td className={classn}><a href={order.rutaguia} target="_blank">{order.mensaje}</a></td>
             <td className={classn}><a href={order.rotulo} target="_blank">{order.numguia}</a></td>
@@ -22,6 +22,8 @@ const Orders = ({ api, modal, shop }) => {
     const [orders, setOrders] = useState([])
     const [loader, setLoader] = useState(true)
     const [loadOrder, setLoadOrder] = useState(true)
+    const [ordersSelect, setOrdersSelect] = useState([])
+    const [note, setNote] = useState("")
     const loadOrders = async () => {
         setLoadOrder(false)
         const result = await app.getOrders()
@@ -39,6 +41,21 @@ const Orders = ({ api, modal, shop }) => {
     const reloadOrders = async () => {
         setLoader(true)
         await loadOrders()
+    }
+    const onChangeOrdersSelect = (id) => (ele) => {
+        var newOrdersSelect = ordersSelect
+        const value = ele.target.checked
+        console.log(id,value);
+        if(value){
+            newOrdersSelect.push(id)
+        }else{
+            newOrdersSelect = newOrdersSelect.filter((e)=>e!=id)
+        }
+        console.log(newOrdersSelect);
+        setOrdersSelect(newOrdersSelect)
+    }
+    const generateRecoguidas = () => {
+
     }
     const classTh = "Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--firstColumn Polaris-DataTable__Cell--header"
     return (
@@ -58,7 +75,15 @@ const Orders = ({ api, modal, shop }) => {
                             <div style={{display:"flex",justifyContent:"space-between"}}>
                                 <Heading element="h1">Orders</Heading>
                                 <ButtonGroup segmented>
-                                    <Button >btn pendient</Button>
+                                    <TextField
+                                        id="note"
+                                        name="note"
+                                        value={note}
+                                        onChange={setNote}
+                                        placeholder="Notas de Recogida"
+                                        type="text"
+                                    />
+                                    <Button onClick={generateRecoguidas}>Generar Recoguidas</Button>
                                     <Button primary onClick={reloadOrders} >Load Guias</Button>
                                 </ButtonGroup>
                             </div>
@@ -77,7 +102,7 @@ const Orders = ({ api, modal, shop }) => {
                                     </thead>
                                     <tbody>
                                         {orders.map((e,i)=>{
-                                            return <ItemOrder order={e} key={i} shop={shop}/>
+                                            return <ItemOrder order={e} key={i} shop={shop} onChange={onChangeOrdersSelect}/>
                                         })}
                                     </tbody>
                                 </table>
