@@ -8,7 +8,12 @@ const classTd = "Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignT
 const ItemOrder = ({order,shop,onChange}) => {
     return (
         <tr>
-            <td className={classTd} style={{width:"20px"}}><input type="checkbox" name="" id={order.id_order} onChange={onChange(order.id_order)}/></td>
+            <td className={classTd} style={{width:"20px"}}>
+                {
+                    order.status != "Generada" && 
+                    <input type="checkbox" name="" id={order.id_order} onChange={onChange(order.id_order)}/>
+                }
+            </td>
             <td className={classTd}><a href={`https://${shop}/admin/orders/${order.id_order}`} target="_blank">{order.id_order}</a></td>
             <td className={classTd}><a href={order.rutaguia} target="_blank">{order.mensaje}</a></td>
             <td className={classTd}><a href={order.rotulo} target="_blank">{order.numguia}</a></td>
@@ -77,6 +82,7 @@ const Orders = ({ api, modal, shop }) => {
             note
         })
         setOrdersSelect([])
+        setNote("")
         console.log(result);
         if (result.type === "error") {
             modal.openModal({
@@ -118,6 +124,7 @@ const Orders = ({ api, modal, shop }) => {
                     </table>
                 </>
             )
+            await reloadOrders()
             modal.openModal({
                 title: "Recogidas Generadas",
                 text: msj,
