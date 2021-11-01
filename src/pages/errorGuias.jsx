@@ -26,10 +26,10 @@ const Errors = ({ api, modal, shop }) => {
         if (respond.type === "error") {
             modal.openModal({
                 title: "Error",
-                text: "Ocurrio un error con la carga de Errores de Cotizacion",
+                text: "Ocurrio un error con la carga de Errores de Guias",
             });
         }else{
-            const newErrorsApi = respond.result.errorCotizar || []
+            const newErrorsApi = respond.result.errorGenerarGuia || []
             console.log(newErrorsApi);
             setErrors(newErrorsApi)
             console.log("Load Errors");

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Content from "@/components/content";
 
 import PageErrorCotizar from "@/pages/errorCotizar";
+import PageErrorGuias from "@/pages/errorGuias";
 
 const Index = ({ api, controllerModal, shop }) => {
     const [indexTab, setIndexTab] = useState(0);
@@ -13,6 +14,17 @@ const Index = ({ api, controllerModal, shop }) => {
             content: "Cotizaciones",
             page: (
                 <PageErrorCotizar
+                    api={api}
+                    modal={controllerModal}
+                    shop={shop}
+                />
+            ),
+        },
+        {
+            id: "errorsGuias",
+            content: "Guias",
+            page: (
+                <PageErrorGuias
                     api={api}
                     modal={controllerModal}
                     shop={shop}
