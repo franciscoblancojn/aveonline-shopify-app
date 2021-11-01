@@ -3,17 +3,16 @@ import { useState, useEffect } from "react";
 
 import Loader from "@/components/loader";
 
-const ItemOrder = ({order}) => {
+const ItemOrder = ({order,shop}) => {
     const classn = "Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--firstColumn"
     return (
         <tr>
-            <td className={classn} style={{width:"20px"}}><input type="checkbox" name="" id="" /></td>
-            <td className={classn}>id</td>
-            <td className={classn}>Orden</td>
-            <td className={classn}>Guia</td>
-            <td className={classn}>Rotulo</td>
-            <td className={classn}>Estado</td>
-            <td className={classn}>Fecha</td>
+            <td className={classn} style={{width:"20px"}}><input type="checkbox" name="" id={order.id_order} /></td>
+            <td className={classn}><a href={`https://${shop}/admin/orders/${order.id_order}`} target="_blank">{order.id_order}</a></td>
+            <td className={classn}><a href={order.rutaguia} target="_blank">{order.mensaje}</a></td>
+            <td className={classn}><a href={order.rotulo} target="_blank">{order.numguia}</a></td>
+            <td className={classn}>{order.transportadora}</td>
+            <td className={classn}>{(new Date(order.date)).toLocaleString()}</td>
         </tr>
     )
 }
@@ -37,6 +36,10 @@ const Orders = ({ api, modal, shop }) => {
             setLoader(false)
         }
     }
+    const reloadOrders = async () => {
+        setLoader(true)
+        await loadOrders()
+    }
     const classTh = "Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--firstColumn Polaris-DataTable__Cell--header"
     return (
         <div>
@@ -55,8 +58,8 @@ const Orders = ({ api, modal, shop }) => {
                             <div style={{display:"flex",justifyContent:"space-between"}}>
                                 <Heading element="h1">Orders</Heading>
                                 <ButtonGroup segmented>
-                                    <Button >Cotizar Todos</Button>
-                                    <Button primary >Save</Button>
+                                    <Button >btn pendient</Button>
+                                    <Button primary onClick={reloadOrders} >Load Guias</Button>
                                 </ButtonGroup>
                             </div>
                             <br />
@@ -65,17 +68,16 @@ const Orders = ({ api, modal, shop }) => {
                                     <thead>
                                         <tr>
                                             <th className={classTh}></th>
-                                            <th className={classTh}>Id</th>
                                             <th className={classTh}>Order</th>
                                             <th className={classTh}>Guia</th>
                                             <th className={classTh}>Rotulo</th>
-                                            <th className={classTh}>Estado</th>
+                                            <th className={classTh}>Transportadora</th>
                                             <th className={classTh}>Fecha</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {orders.map((e,i)=>{
-                                            return <ItemOrder order={e} key={i} />
+                                            return <ItemOrder order={e} key={i} shop={shop}/>
                                         })}
                                     </tbody>
                                 </table>
