@@ -12,6 +12,7 @@ const ItemOrder = ({order,shop,onChange}) => {
             <td className={classn}><a href={order.rutaguia} target="_blank">{order.mensaje}</a></td>
             <td className={classn}><a href={order.rotulo} target="_blank">{order.numguia}</a></td>
             <td className={classn}>{order.transportadora}</td>
+            <td className={classn}>{order.status || "No Generada"}</td>
             <td className={classn}>{(new Date(order.date)).toLocaleString()}</td>
         </tr>
     )
@@ -51,11 +52,24 @@ const Orders = ({ api, modal, shop }) => {
         }else{
             newOrdersSelect = newOrdersSelect.filter((e)=>e!=id)
         }
-        console.log(newOrdersSelect);
         setOrdersSelect(newOrdersSelect)
     }
     const generateRecoguidas = () => {
-
+        if(note.split(" ").join("") == ""){
+            modal.openModal({
+                title: "Error",
+                text: "Debes agregar Notas de Recogida",
+            });
+            return;
+        }
+        if(ordersSelect.length == 0){
+            modal.openModal({
+                title: "Error",
+                text: "Debes agregar seleccionar una Guia",
+            });
+            return;
+        }
+        console.log(ordersSelect);
     }
     const classTh = "Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--firstColumn Polaris-DataTable__Cell--header"
     return (
@@ -97,6 +111,7 @@ const Orders = ({ api, modal, shop }) => {
                                             <th className={classTh}>Guia</th>
                                             <th className={classTh}>Rotulo</th>
                                             <th className={classTh}>Transportadora</th>
+                                            <th className={classTh}>Estado de Recoguida</th>
                                             <th className={classTh}>Fecha</th>
                                         </tr>
                                     </thead>
