@@ -68,9 +68,7 @@ const Index = ({ api , shop}) => {
       >
         <Modal.Section>
           <TextContainer>
-            <p>
               {configModal.text}
-            </p>
           </TextContainer>
         </Modal.Section>
       </Modal>
