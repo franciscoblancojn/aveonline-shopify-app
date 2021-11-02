@@ -60,7 +60,7 @@ const Orders = ({ api, modal, shop }) => {
         }
         setOrdersSelect(newOrdersSelect)
     }
-    const generateRecoguidas = async () => {
+    const generateRelaciones = async () => {
         if(ordersSelect.length == 0){
             modal.openModal({
                 title: "Error",
@@ -70,7 +70,7 @@ const Orders = ({ api, modal, shop }) => {
         }
         console.log(ordersSelect);
         setLoader(true)
-        const result = await app.generateRecogidas({
+        const result = await app.generateRelaciones({
             guias:ordersSelect,
         })
         setOrdersSelect([])
@@ -84,7 +84,7 @@ const Orders = ({ api, modal, shop }) => {
         }else{
             setLoader(false)
             const respuestasRecogida = result.recoguidas.respuestasRecogida[0]
-            const resultGuias = result.recoguidas.guias
+            const resultGuias = result.recoguidas.guias || []
             const msj = (
                 <>
                     <h3>Horario:</h3>
@@ -140,7 +140,7 @@ const Orders = ({ api, modal, shop }) => {
                             <div style={{display:"flex",justifyContent:"space-between"}}>
                                 <Heading element="h1">Orders</Heading>
                                 <ButtonGroup segmented>
-                                    <Button onClick={generateRecoguidas}>Generar Relacion de Envio</Button>
+                                    <Button onClick={generateRelaciones}>Generar Relacion de Envio</Button>
                                     <Button primary onClick={reloadOrders} >Load Recogidas</Button>
                                 </ButtonGroup>
                             </div>

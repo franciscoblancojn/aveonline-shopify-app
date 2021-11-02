@@ -230,6 +230,13 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE, HOST }) => {
                 json
             })
         }
+        const generateRelaciones = async (json) => {
+            return await request({
+                rute:`/orders/generate-relacion-envio?shop=${shop}`,
+                method:"POST",
+                json
+            })
+        }
         return {
             getShop,
             saveConfig,
@@ -238,7 +245,8 @@ const Api = async ({ shop, key, URLAPI, URLAVEONLINE, HOST }) => {
             saveProducts,
             getOrders,
             addHookCreateOrder,
-            generateRecogidas
+            generateRecogidas,
+            generateRelaciones,
         }
     };
     return {
