@@ -10,7 +10,7 @@ const ItemOrder = ({order,shop,onChange}) => {
         <tr>
             <td className={classTd} style={{width:"20px"}}>
                 {
-                    order.status != "Generada" && 
+                    order.statusRelacion != "Generada" && 
                     <input type="checkbox" name="" id={order.id_order} onChange={onChange(order.id_order)}/>
                 }
             </td>
@@ -18,7 +18,8 @@ const ItemOrder = ({order,shop,onChange}) => {
             <td className={classTd}><a href={order.rutaguia} target="_blank">{order.mensaje}</a></td>
             <td className={classTd}><a href={order.rotulo} target="_blank">{order.numguia}</a></td>
             <td className={classTd}>{order.transportadora}</td>
-            <td className={classTd}>{order.status || "No Generada"}</td>
+            <td className={classTd}>{order.relacionDeEnvio}</td>
+            <td className={classTd}>{order.statusRelacion || "No Generada"}</td>
             <td className={classTd}>{(new Date(order.date)).toLocaleString()}</td>
         </tr>
     )
@@ -30,7 +31,6 @@ const Orders = ({ api, modal, shop }) => {
     const [loader, setLoader] = useState(true)
     const [loadOrder, setLoadOrder] = useState(true)
     const [ordersSelect, setOrdersSelect] = useState([])
-    const [note, setNote] = useState("")
     const loadOrders = async () => {
         setLoadOrder(false)
         const result = await app.getOrders()
@@ -41,7 +41,7 @@ const Orders = ({ api, modal, shop }) => {
                 text: "Ocurrio un error con la carga de Orderos",
             });
         }else{
-            setOrders(result.orders)
+            setOrders(result.orders.filter((e)=>e.status==="Generada"))
             setLoader(false)
         }
     }
@@ -61,13 +61,6 @@ const Orders = ({ api, modal, shop }) => {
         setOrdersSelect(newOrdersSelect)
     }
     const generateRecoguidas = async () => {
-        if(note.split(" ").join("") == ""){
-            modal.openModal({
-                title: "Error",
-                text: "Debes agregar Notas de Recogida",
-            });
-            return;
-        }
         if(ordersSelect.length == 0){
             modal.openModal({
                 title: "Error",
@@ -79,10 +72,8 @@ const Orders = ({ api, modal, shop }) => {
         setLoader(true)
         const result = await app.generateRecogidas({
             guias:ordersSelect,
-            note
         })
         setOrdersSelect([])
-        setNote("")
         console.log(result);
         if (result.type === "error") {
             modal.openModal({
@@ -149,16 +140,8 @@ const Orders = ({ api, modal, shop }) => {
                             <div style={{display:"flex",justifyContent:"space-between"}}>
                                 <Heading element="h1">Orders</Heading>
                                 <ButtonGroup segmented>
-                                    <TextField
-                                        id="note"
-                                        name="note"
-                                        value={note}
-                                        onChange={setNote}
-                                        placeholder="Notas de Recogida"
-                                        type="text"
-                                    />
-                                    <Button onClick={generateRecoguidas}>Generar Recoguidas</Button>
-                                    <Button primary onClick={reloadOrders} >Load Guias</Button>
+                                    <Button onClick={generateRecoguidas}>Generar Relacion de Envio</Button>
+                                    <Button primary onClick={reloadOrders} >Load Recogidas</Button>
                                 </ButtonGroup>
                             </div>
                             <br />
@@ -171,7 +154,8 @@ const Orders = ({ api, modal, shop }) => {
                                             <th className={classTh}>Guia</th>
                                             <th className={classTh}>Rotulo</th>
                                             <th className={classTh}>Transportadora</th>
-                                            <th className={classTh}>Estado de Recoguida</th>
+                                            <th className={classTh}>Relacion de Envio</th>
+                                            <th className={classTh}>Estado</th>
                                             <th className={classTh}>Fecha</th>
                                         </tr>
                                     </thead>
