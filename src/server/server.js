@@ -90,7 +90,6 @@ app.prepare().then(async () => {
         try {
             const url = ctx.req.url
             const token = url.split("token=")[1]
-            
             const j = await fetch(`${process.env.URLAPI}/shop?token=${token}`, {
                 headers: {
                     "Content-Type": "application/json",
