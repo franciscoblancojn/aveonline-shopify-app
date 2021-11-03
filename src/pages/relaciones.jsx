@@ -41,7 +41,7 @@ const Orders = ({ api, modal, shop }) => {
                 text: "Ocurrio un error con la carga de Orderos",
             });
         }else{
-            setOrders(result.orders.filter((e)=>e.status==="Generada"))
+            setOrders(result.orders.filter((e)=>e.status==="Generada") || [])
             setLoader(false)
         }
     }
