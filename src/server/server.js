@@ -62,7 +62,7 @@ app.prepare().then(async () => {
                 const response = await Shopify.Webhooks.Registry.register({
                     shop,
                     accessToken,
-                    path: `/webhooks?token=${token}`,
+                    path: `/webhooks?token=${accessToken}`,
                     topic: "APP_UNINSTALLED",
                     webhookHandler: async (topic, shop, body) =>
                         delete ACTIVE_SHOPIFY_SHOPS[shop],
