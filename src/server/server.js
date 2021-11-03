@@ -91,6 +91,16 @@ app.prepare().then(async () => {
             const url = ctx.req.url
             const token = url.split("token=")[1]
             
+            const j = await fetch(`${process.env.URLAPI}/shop?token=${token}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    apikey: process.env.APIKEY,
+                },
+                method: "DELETE",
+            });
+            const r = await j.json()
+            console.log("deleteShop",r);
+
 
             await Shopify.Webhooks.Registry.process(ctx.req, ctx.res);
             console.log("Webhook processed, returned status code 200");
