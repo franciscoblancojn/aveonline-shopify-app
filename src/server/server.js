@@ -88,8 +88,11 @@ app.prepare().then(async () => {
 
     router.post("/webhooks", async (ctx) => {
         try {
+            const url = ctx.req.url
+            const token = url.split("token=")[1]
+            
+
             await Shopify.Webhooks.Registry.process(ctx.req, ctx.res);
-            console.log("query", ctx.req.query);
             console.log("Webhook processed, returned status code 200");
         } catch (error) {
             console.log(`Failed to process webhook: ${error}`);
