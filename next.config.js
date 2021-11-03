@@ -21,5 +21,6 @@ module.exports = {
     key : process.env.APIKEY ,
     URLAPI : process.env.URLAPI,
     URLAVEONLINE : process.env.URLAVEONLINE,
+    HOST : process.env.HOST,
   }
 };
