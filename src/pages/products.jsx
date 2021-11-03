@@ -84,7 +84,7 @@ const Products = ({ api, modal, shop }) => {
                     text: "Ocurrio un error con la carga de Productos",
                 });
             }else{
-                const newProductsApi = respond.result.products
+                const newProductsApi = respond.result.products || []
                 console.log(newProductsApi);
                 setDataProducts(newProductsApi)
                 console.log("Load Products");
@@ -123,6 +123,7 @@ const Products = ({ api, modal, shop }) => {
         }
     }
     const saveProduct = (data) => {
+        console.log(dataProducts);
         const newDataProducts = dataProducts.map((e)=>{
             if(e.id == data.id){
                 return data

@@ -18,9 +18,9 @@ const ItemOrder = ({order,shop,onChange}) => {
             <td className={classTd}><a href={order.rutaguia} target="_blank">{order.mensaje}</a></td>
             <td className={classTd}><a href={order.rotulo} target="_blank">{order.numguia}</a></td>
             <td className={classTd}>{order.transportadora}</td>
-            <td className={classTd}>{order.relacionDeEnvio}</td>
+            <td className={classTd}><a href={order.relacionDeEnvioUrl} target="_blank">{order.relacionDeEnvio}</a></td>
             <td className={classTd}>{order.statusRelacion || "No Generada"}</td>
-            <td className={classTd}>{(new Date(order.date)).toLocaleString()}</td>
+            <td className={classTd}>{order.relacionDeEnvioFecha}</td>
         </tr>
     )
 }
@@ -41,7 +41,7 @@ const Orders = ({ api, modal, shop }) => {
                 text: "Ocurrio un error con la carga de Orderos",
             });
         }else{
-            setOrders(result.orders.filter((e)=>e.status==="Generada"))
+            setOrders(result.orders.filter((e)=>e.status==="Generada") || [])
             setLoader(false)
         }
     }
@@ -83,32 +83,22 @@ const Orders = ({ api, modal, shop }) => {
             setLoader(false)
         }else{
             setLoader(false)
-            const respuestasRecogida = result.recoguidas.respuestasRecogida[0]
-            const resultGuias = result.recoguidas.guias || []
+            const respuestasRecogida = result.relacion
             const msj = (
                 <>
-                    <h3>Horario:</h3>
-                    <p><strong>Hora inicial:</strong> {respuestasRecogida.horaInicial}</p>
-                    <p><strong>Hora final:</strong> {respuestasRecogida.horaFinal}</p>
                     <h3>Guias:</h3>
                     <table className="Polaris-DataTable__Table">
                         <thead>
                             <tr>
-                                <th className={classTh}>ID</th>
-                                <th className={classTh}>Trasportador</th>
-                                <th className={classTh}>Valoracion</th>
-                                <th className={classTh}>Kilos</th>
-                                <th className={classTh}>Estado</th>
+                                <th className={classTh}>Guias</th>
+                                <th className={classTh}>Relacion de Envio</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {resultGuias.map((e,i)=>{
+                            {respuestasRecogida.map((e,i)=>{
                                 return <tr key={i}>
-                                    <td className={classTd}>{e.dsconsec}</td>
-                                    <td className={classTd}>{e.idtransportador}</td>
-                                    <td className={classTd}>{e.valoracion}</td>
-                                    <td className={classTd}>{e.kilos}</td>
-                                    <td className={classTd}>{e.status}</td>
+                                    <td className={classTd}>{e.guias.join(", ")}</td>
+                                    <td className={classTd}>{e.relacionenvio}</td>
                                 </tr>
                             })}
                         </tbody>
