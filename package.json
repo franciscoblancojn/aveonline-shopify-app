@@ -2,6 +2,7 @@
   "name": "aveoline-shopify",
   "version": "1.0.0",
   "description": "Aveonlien app in Shopify",
+  "main": "./src/server/index.js",
   "scripts": {
     "test": "jest",
     "dev": "cross-env NODE_ENV=development nodemon ./src/server/index.js --watch ./src/server/index.js",
