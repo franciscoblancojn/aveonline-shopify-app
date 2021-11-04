@@ -12,9 +12,9 @@
     "format": "npx standard --fix src/",
     "push": "git push && git push gith",
     "shi": "node ./src/server/shi.js",
-    "play":"pm2 start ./src/server/index.js && pm2 save",
-    "restart":"pm2 delete ./src/server/index.js && pm2 start ./src/server/index.js && pm2 save",
-    "dev3002":"npm run dev -- -p 3002"
+    "play": "pm2 start ./src/server/index.js && pm2 save",
+    "restart": "pm2 delete ./src/server/index.js && pm2 start ./src/server/index.js && pm2 save",
+    "dev3002": "npm run dev -- -p 3002"
   },
   "repository": {
     "type": "git",
