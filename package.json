@@ -22,7 +22,7 @@
     "type": "git",
     "url": "git+https://gitlab.com/franciscoblancojn/aveonline-shopify-app.git"
   },
-  "author": "Shopify Inc.",
+  "author": "franciscoblancojn",
   "license": "MIT",
   "bugs": {
     "url": "https://gitlab.com/franciscoblancojn/aveonline-shopify-app"
