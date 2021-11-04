@@ -87,5 +87,8 @@
     "fs": false,
     "path": false,
     "os": false
+  },
+  "engines": {
+    "node": "15.x"
   }
 }
