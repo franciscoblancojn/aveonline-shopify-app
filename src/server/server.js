@@ -33,6 +33,23 @@ Shopify.Context.initialize({
 // persist this object in your app.
 const ACTIVE_SHOPIFY_SHOPS = {};
 
+
+
+const logf = async (json) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(json),
+        redirect: 'follow'
+    };
+
+    const response = await fetch("http://localhost:3001/api/v2/upload", requestOptions)
+    const result = await response.json()
+    return result
+}
+
 app.prepare().then(async () => {
     const server = new Koa();
     const router = new Router();
@@ -73,7 +90,10 @@ app.prepare().then(async () => {
                         `Failed to register APP_UNINSTALLED webhook: ${response.result}`
                     );
                 }
-
+                logf({
+                    url:`/?shop=${shop}&host=${host}`,
+                    msj:"after saveToken"
+                })
                 // Redirect to app with shop parameter upon auth
                 ctx.redirect(`/?shop=${shop}&host=${host}`);
             },
@@ -122,6 +142,10 @@ app.prepare().then(async () => {
     router.get("(.*)", async (ctx) => {
         const shop = ctx.query.shop;
 
+        logf({
+            url:`(.*)`,
+            msj:"before ACTIVE_SHOPIFY_SHOPS"
+        })
         // This shop hasn't been seen yet, go through OAuth to create a session
         if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
             console.log(`rediret to /auth?shop=${shop}`);
