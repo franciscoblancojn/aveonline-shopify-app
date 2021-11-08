@@ -90,10 +90,10 @@ app.prepare().then(async () => {
                         `Failed to register APP_UNINSTALLED webhook: ${response.result}`
                     );
                 }
-                logf({
-                    url:`/?shop=${shop}&host=${host}`,
-                    msj:"after saveToken"
-                })
+                // logf({
+                //     url:`/?shop=${shop}&host=${host}`,
+                //     msj:"after saveToken"
+                // })
                 // Redirect to app with shop parameter upon auth
                 ctx.redirect(`/?shop=${shop}&host=${host}`);
             },
@@ -142,10 +142,10 @@ app.prepare().then(async () => {
     router.get("(.*)", async (ctx) => {
         const shop = ctx.query.shop;
 
-        logf({
-            url:`(.*)`,
-            msj:"before ACTIVE_SHOPIFY_SHOPS"
-        })
+        // logf({
+        //     url:`(.*)`,
+        //     msj:"before ACTIVE_SHOPIFY_SHOPS"
+        // })
         // This shop hasn't been seen yet, go through OAuth to create a session
         if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
             console.log(`rediret to /auth?shop=${shop}`);
