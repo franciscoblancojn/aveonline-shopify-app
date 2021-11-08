@@ -36,11 +36,11 @@ const ACTIVE_SHOPIFY_SHOPS = {};
 
 
 const logf = async (json) => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
     var requestOptions = {
         method: 'POST',
-        headers: myHeaders,
+        headers: {
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify(json),
         redirect: 'follow'
     };
