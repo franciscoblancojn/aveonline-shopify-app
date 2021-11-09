@@ -111,6 +111,9 @@ app.prepare().then(async () => {
     );
 
     const handleRequest = async (ctx) => {
+        await logf({
+            msj:"in handleRequest",
+        })
         await handle(ctx.req, ctx.res);
         ctx.respond = false;
         ctx.res.statusCode = 200;
@@ -156,7 +159,8 @@ app.prepare().then(async () => {
             url:`(.*)`,
             msj:"before ACTIVE_SHOPIFY_SHOPS",
             ACTIVE_SHOPIFY_SHOPS,
-            shop
+            shop,
+            dev
         })
         // This shop hasn't been seen yet, go through OAuth to create a session
         if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
