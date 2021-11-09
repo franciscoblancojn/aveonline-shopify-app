@@ -113,6 +113,7 @@ app.prepare().then(async () => {
     const handleRequest = async (ctx) => {
         await logf({
             msj:"in handleRequest",
+            dev
         })
         await handle(ctx.req, ctx.res);
         ctx.respond = false;
