@@ -70,9 +70,6 @@ app.prepare().then(() => {
                     token: accessToken,
                 };
 
-                await logf({
-                    msj:"after j"
-                })
                 const j = await fetch(`${process.env.URLAPI}/tokens?shop=${shop}`, {
                     body: JSON.stringify(body),
                     headers: {
@@ -82,10 +79,6 @@ app.prepare().then(() => {
                     method: "POST",
                 });
                 const r = await j.json()
-                await logf({
-                    r,
-                    msj:"after r"
-                })
                 console.log("saveToken",r);
 
                 const response = await Shopify.Webhooks.Registry.register({
@@ -97,19 +90,11 @@ app.prepare().then(() => {
                         delete ACTIVE_SHOPIFY_SHOPS[shop],
                 });
 
-                await logf({
-                    response,
-                    msj:"after response"
-                })
                 if (!response.success) {
                     console.log(
                         `Failed to register APP_UNINSTALLED webhook: ${response.result}`
                     );
                 }
-                await logf({
-                    url:`/?shop=${shop}&host=${host}`,
-                    msj:"after saveToken"
-                })
                 // Redirect to app with shop parameter upon auth
                 ctx.redirect(`/?shop=${shop}&host=${host}`);
             },
@@ -117,15 +102,7 @@ app.prepare().then(() => {
     );
 
     const handleRequest = async (ctx) => {
-        await logf({
-            msj:"in handleRequest",
-            dev
-        })
         await handle(ctx.req, ctx.res);
-        await logf({
-            msj:"in handle",
-            dev
-        })
         ctx.respond = false;
         ctx.res.statusCode = 200;
     };
