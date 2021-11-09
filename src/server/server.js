@@ -13,7 +13,7 @@ dotenv.config();
 const port = parseInt(process.env.PORT, 10) || 8081;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({
-    dev,
+    dev:true,
 });
 
 const handle = app.getRequestHandler();
