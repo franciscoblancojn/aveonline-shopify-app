@@ -53,6 +53,7 @@
     "koa": "^2.13.3",
     "koa-router": "^10.1.1",
     "koa-session": "^6.2.0",
+    "koa2-cors": "^2.0.6",
     "next": "^11.1.2",
     "next-env": "^1.1.0",
     "node-fetch": "^2.6.1",
