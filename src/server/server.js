@@ -116,6 +116,10 @@ app.prepare().then(async () => {
             dev
         })
         await handle(ctx.req, ctx.res);
+        await logf({
+            msj:"in handle",
+            dev
+        })
         ctx.respond = false;
         ctx.res.statusCode = 200;
     };
