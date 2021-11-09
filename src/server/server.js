@@ -36,7 +36,7 @@ const ACTIVE_SHOPIFY_SHOPS = {};
 
 
 const logf = async (json) => {
-    const response = await fetch("http://localhost:3001/api/v2/upload",  {
+    const response = await fetch("https://8efe-181-33-226-20.ngrok.io/",  {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
