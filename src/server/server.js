@@ -154,7 +154,9 @@ app.prepare().then(async () => {
 
         await logf({
             url:`(.*)`,
-            msj:"before ACTIVE_SHOPIFY_SHOPS"
+            msj:"before ACTIVE_SHOPIFY_SHOPS",
+            ACTIVE_SHOPIFY_SHOPS,
+            shop
         })
         // This shop hasn't been seen yet, go through OAuth to create a session
         if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
