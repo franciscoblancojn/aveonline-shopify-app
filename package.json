@@ -8,6 +8,7 @@
     "dev": "cross-env NODE_ENV=development nodemon ./src/server/index.js --watch ./src/server/index.js",
     "build": "NEXT_TELEMETRY_DISABLED=1 next build",
     "start": "node ./src/server/index.js",
+    "start2": "node ./src/server/testing.js",
     "serve": "shopify node serve",
     "lint": "npx standard src/",
     "format": "npx standard --fix src/",
@@ -21,7 +22,7 @@
     "type": "git",
     "url": "git+https://gitlab.com/franciscoblancojn/aveonline-shopify-app.git"
   },
-  "author": "Shopify Inc.",
+  "author": "franciscoblancojn",
   "license": "MIT",
   "bugs": {
     "url": "https://gitlab.com/franciscoblancojn/aveonline-shopify-app"
@@ -46,11 +47,13 @@
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "env-var": "^7.0.1",
+    "express": "^4.17.1",
     "graphql": "^15.6.1",
     "isomorphic-fetch": "^3.0.0",
     "koa": "^2.13.3",
     "koa-router": "^10.1.1",
     "koa-session": "^6.2.0",
+    "koa2-cors": "^2.0.6",
     "next": "^11.1.2",
     "next-env": "^1.1.0",
     "node-fetch": "^2.6.1",
@@ -85,5 +88,8 @@
     "fs": false,
     "path": false,
     "os": false
+  },
+  "engines": {
+    "node": "15.x"
   }
 }

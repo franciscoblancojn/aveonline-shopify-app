@@ -59,6 +59,7 @@ const Index = ({ api, modal }) => {
             },
         ],
         valorMinimo: false,
+        envioGratis : false,
     });
     const saveConfig = async () => {
         console.log(config);
@@ -281,6 +282,15 @@ const Index = ({ api, modal }) => {
                             label="Actualmente Valor Minimo esta "
                             onChange={handleChange("valorMinimo")}
                             enabled={config.valorMinimo}
+                        />
+                        <InputFormCheckbox
+                            id="envioGratis"
+                            name="envioGratis"
+                            title="Habilitar/Deshabilitar"
+                            description=""
+                            label="Actualmente Envio Gratis esta "
+                            onChange={handleChange("envioGratis")}
+                            enabled={config.envioGratis}
                         />
                         <div className="submit">
                             <Stack distribution="trailing">
