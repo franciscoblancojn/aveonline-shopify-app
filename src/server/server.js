@@ -1,5 +1,4 @@
 import "@babel/polyfill";
-import env from "./env";
 import "isomorphic-fetch";
 import createShopifyAuth, { verifyRequest } from "@shopify/koa-shopify-auth";
 import Shopify, { ApiVersion } from "@shopify/shopify-api";
@@ -9,6 +8,7 @@ import Router from "koa-router";
 var cors = require("koa2-cors");
 
 const fetch = require("node-fetch");
+const env = require("./env");
 
 const port = parseInt(env.PORT, 10) || 8081;
 const dev = env.NODE_ENV !== "production";
