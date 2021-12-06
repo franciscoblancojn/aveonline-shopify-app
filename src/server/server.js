@@ -1,18 +1,18 @@
 import "@babel/polyfill";
-import dotenv from "dotenv";
 import "isomorphic-fetch";
 import createShopifyAuth, { verifyRequest } from "@shopify/koa-shopify-auth";
 import Shopify, { ApiVersion } from "@shopify/shopify-api";
 import Koa from "koa";
 import next from "next";
 import Router from "koa-router";
-var cors = require('koa2-cors');
+var cors = require("koa2-cors");
+
 
 const fetch = require("node-fetch");
+const env = require("./env");
 
-dotenv.config();
-const port = parseInt(process.env.PORT, 10) || 8081;
-const dev = process.env.NODE_ENV !== "production";
+const port = parseInt(env.PORT, 10) || 8081;
+const dev = env.NODE_ENV !== "production";
 const app = next({
     dev,
 });
@@ -20,10 +20,10 @@ const app = next({
 const handle = app.getRequestHandler();
 
 Shopify.Context.initialize({
-    API_KEY: process.env.SHOPIFY_API_KEY,
-    API_SECRET_KEY: process.env.SHOPIFY_API_SECRET,
-    SCOPES: process.env.SCOPES.split(","),
-    HOST_NAME: process.env.HOST.replace(/https:\/\//, ""),
+    API_KEY: env.SHOPIFY_API_KEY,
+    API_SECRET_KEY: env.SHOPIFY_API_SECRET,
+    SCOPES: env.SCOPES.split(","),
+    HOST_NAME: env.HOST.replace(/https:\/\//, ""),
     API_VERSION: ApiVersion.October20,
     IS_EMBEDDED_APP: true,
     // This should be replaced with your preferred storage strategy
@@ -34,52 +34,37 @@ Shopify.Context.initialize({
 // persist this object in your app.
 const ACTIVE_SHOPIFY_SHOPS = {};
 
-
-
-const logf = async (json) => {
-    const response = await fetch("https://9a25-181-33-226-20.ngrok.io/",  {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(json),
-        redirect: 'follow'
-    })
-    const result = await response.json()
-    return result
-}
-
 app.prepare().then(() => {
     const server = new Koa();
     const router = new Router();
     server.keys = [Shopify.Context.API_SECRET_KEY];
     server.use(
         createShopifyAuth({
-            accessMode: 'online',
+            accessMode: "online",
             async afterAuth(ctx) {
                 // Access token and shop available in ctx.state.shopify
                 const { shop, accessToken, scope } = ctx.state.shopify;
                 const host = ctx.query.host;
                 ACTIVE_SHOPIFY_SHOPS[shop] = scope;
-                ctx.cookies.set('shopOrigin', shop, {
+                ctx.cookies.set("shopOrigin", shop, {
                     httpOnly: false,
                     secure: true,
-                    sameSite: 'none'
-                 });
+                    sameSite: "none",
+                });
                 const body = {
                     token: accessToken,
                 };
 
-                const j = await fetch(`${process.env.URLAPI}/tokens?shop=${shop}`, {
+                const j = await fetch(`${env.URLAPI}/tokens?shop=${shop}`, {
                     body: JSON.stringify(body),
                     headers: {
                         "Content-Type": "application/json",
-                        apikey: process.env.APIKEY,
+                        apikey: env.APIKEY,
                     },
                     method: "POST",
                 });
-                const r = await j.json()
-                console.log("saveToken",r);
+                const r = await j.json();
+                console.log("saveToken", r);
 
                 const response = await Shopify.Webhooks.Registry.register({
                     shop,
@@ -109,18 +94,17 @@ app.prepare().then(() => {
 
     router.post("/webhooks", async (ctx) => {
         try {
-            const url = ctx.req.url
-            const token = url.split("token=")[1]
-            const j = await fetch(`${process.env.URLAPI}/shop?token=${token}`, {
+            const url = ctx.req.url;
+            const token = url.split("token=")[1];
+            const j = await fetch(`${env.URLAPI}/shop?token=${token}`, {
                 headers: {
                     "Content-Type": "application/json",
-                    apikey: process.env.APIKEY,
+                    apikey: env.APIKEY,
                 },
                 method: "DELETE",
             });
-            const r = await j.json()
-            console.log("deleteShop",r);
-
+            const r = await j.json();
+            console.log("deleteShop", r);
 
             await Shopify.Webhooks.Registry.process(ctx.req, ctx.res);
             console.log("Webhook processed, returned status code 200");
@@ -140,51 +124,16 @@ app.prepare().then(() => {
         const shop = ctx.query.shop;
         // This shop hasn't been seen yet, go through OAuth to create a session
         if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
-          ctx.redirect(`/auth?shop=${shop}`);
+            ctx.redirect(`/auth?shop=${shop}`);
         } else {
-          await handleRequest(ctx);
+            await handleRequest(ctx);
         }
-      });
+    });
     router.get("(/_next/static/.*)", handleRequest); // Static content is clear
     router.get("/_next/webpack-hmr", handleRequest); // Webpack content is clear
     router.get("(.*)", verifyRequest(), handleRequest);
-    
-    // router.get("(.*)", async (ctx) => {
-    //     const shop = (() => {
-    //         const { shop } = ctx.query
-    //         if (!shop) return undefined
-    //         if (typeof shop === 'string') return shop
-    //         return shop[0]
-    //     })();
-    
-    //     // This shop hasn't been seen yet, go through OAuth to create a session
-    //     if (!shop || ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
-    //         console.log(`rediret to /auth?shop=${shop}`);
-    //       ctx.redirect(`/auth?shop=${shop}`);
-    //     } else {
-    //       await handleRequest(ctx);
-    //     }
-    //     return;
 
-    //     // const shop = ctx.query.shop;
-
-    //     // await logf({
-    //     //     url:`(.*)`,
-    //     //     msj:"before ACTIVE_SHOPIFY_SHOPS",
-    //     //     ACTIVE_SHOPIFY_SHOPS,
-    //     //     shop,
-    //     //     dev
-    //     // })
-    //     // // This shop hasn't been seen yet, go through OAuth to create a session
-    //     // if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined && shop) {
-    //     //     console.log(`rediret to /auth?shop=${shop}`);
-    //     //     ctx.redirect(`/auth?shop=${shop}`);
-    //     // } else {
-    //     //     console.log("handleRequest");
-    //     //     await handleRequest(ctx);
-    //     // }
-    // });
-  server.use(cors({origin: '*'}));
+    server.use(cors({ origin: "*" }));
     server.use(router.allowedMethods());
     server.use(router.routes());
     server.listen(port, () => {
