@@ -33,21 +33,6 @@ Shopify.Context.initialize({
 // persist this object in your app.
 const ACTIVE_SHOPIFY_SHOPS = {};
 
-
-
-const logf = async (json) => {
-    const response = await fetch("https://9a25-181-33-226-20.ngrok.io/",  {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(json),
-        redirect: 'follow'
-    })
-    const result = await response.json()
-    return result
-}
-
 app.prepare().then(() => {
     const server = new Koa();
     const router = new Router();
