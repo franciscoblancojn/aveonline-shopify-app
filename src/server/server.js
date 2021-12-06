@@ -1,5 +1,5 @@
 import "@babel/polyfill";
-import dotenv from "dotenv";
+import env from "./env";
 import "isomorphic-fetch";
 import createShopifyAuth, { verifyRequest } from "@shopify/koa-shopify-auth";
 import Shopify, { ApiVersion } from "@shopify/shopify-api";
@@ -10,9 +10,8 @@ var cors = require('koa2-cors');
 
 const fetch = require("node-fetch");
 
-dotenv.config();
-const port = parseInt(process.env.PORT, 10) || 8081;
-const dev = process.env.NODE_ENV !== "production";
+const port = parseInt(env.PORT, 10) || 8081;
+const dev = env.NODE_ENV !== "production";
 const app = next({
     dev,
 });
@@ -20,10 +19,10 @@ const app = next({
 const handle = app.getRequestHandler();
 
 Shopify.Context.initialize({
-    API_KEY: process.env.SHOPIFY_API_KEY,
-    API_SECRET_KEY: process.env.SHOPIFY_API_SECRET,
-    SCOPES: process.env.SCOPES.split(","),
-    HOST_NAME: process.env.HOST.replace(/https:\/\//, ""),
+    API_KEY: env.SHOPIFY_API_KEY,
+    API_SECRET_KEY: env.SHOPIFY_API_SECRET,
+    SCOPES: env.SCOPES.split(","),
+    HOST_NAME: env.HOST.replace(/https:\/\//, ""),
     API_VERSION: ApiVersion.October20,
     IS_EMBEDDED_APP: true,
     // This should be replaced with your preferred storage strategy
@@ -70,11 +69,11 @@ app.prepare().then(() => {
                     token: accessToken,
                 };
 
-                const j = await fetch(`${process.env.URLAPI}/tokens?shop=${shop}`, {
+                const j = await fetch(`${env.URLAPI}/tokens?shop=${shop}`, {
                     body: JSON.stringify(body),
                     headers: {
                         "Content-Type": "application/json",
-                        apikey: process.env.APIKEY,
+                        apikey: env.APIKEY,
                     },
                     method: "POST",
                 });
@@ -111,10 +110,10 @@ app.prepare().then(() => {
         try {
             const url = ctx.req.url
             const token = url.split("token=")[1]
-            const j = await fetch(`${process.env.URLAPI}/shop?token=${token}`, {
+            const j = await fetch(`${env.URLAPI}/shop?token=${token}`, {
                 headers: {
                     "Content-Type": "application/json",
-                    apikey: process.env.APIKEY,
+                    apikey: env.APIKEY,
                 },
                 method: "DELETE",
             });
