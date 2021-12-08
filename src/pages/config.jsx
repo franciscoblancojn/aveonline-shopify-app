@@ -1,4 +1,4 @@
-import { Button, Form, Layout, Page, Stack } from "@shopify/polaris";
+import { Button, Form, Layout, Page, Stack,TextStyle } from "@shopify/polaris";
 import { useState, useEffect } from "react";
 
 import InputFormText from "@/components/InputFormText";
@@ -148,6 +148,7 @@ const Index = ({ api, modal }) => {
                             onChange={handleChange("eneable")}
                             enabled={config.eneable}
                         />
+                        <TextStyle variation="negative">Aveonline Shopify no es compatible con metodos de pagos Contraentrega</TextStyle>
                         <InputFormText
                             id="user"
                             name="user"
