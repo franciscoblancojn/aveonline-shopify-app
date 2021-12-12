@@ -1,4 +1,14 @@
-import { Button, Form, Layout, Page, Stack,TextStyle } from "@shopify/polaris";
+import {
+    Button,
+    Form,
+    Layout,
+    Page,
+    Stack,
+    TextStyle,
+    Card,
+    FormLayout,
+    TextField,
+} from "@shopify/polaris";
 import { useState, useEffect } from "react";
 
 import InputFormText from "@/components/InputFormText";
@@ -59,7 +69,8 @@ const Index = ({ api, modal }) => {
             },
         ],
         valorMinimo: false,
-        envioGratis : false,
+        envioGratis: false,
+        minEnvioGratis: 0,
     });
     const saveConfig = async () => {
         console.log(config);
@@ -71,23 +82,23 @@ const Index = ({ api, modal }) => {
                 title: "Error",
                 text: respond.msj,
             });
-        }else{
+        } else {
             //generate shipping
-            const result = await app.generateShipping()
+            const result = await app.generateShipping();
             if (result.type === "error") {
                 modal.openModal({
                     title: "Error",
                     text: result.msj,
                 });
-            }else{
+            } else {
                 //generate hook order
-                const resultHook = await app.addHookCreateOrder()
+                const resultHook = await app.addHookCreateOrder();
                 if (resultHook.type === "error") {
                     modal.openModal({
                         title: "Error",
                         text: resultHook.msj,
                     });
-                }else{
+                } else {
                     modal.openModal({
                         title: "Save",
                         text: "Configuraciones Guardadas",
@@ -125,8 +136,8 @@ const Index = ({ api, modal }) => {
                 title: "Error",
                 text: "Ocurrio un error con la instalacion, reinstale el app porfavor",
             });
-        }else{
-            const configShop = respond.result.config || {}
+        } else {
+            const configShop = respond.result.config || {};
             setConfig({ ...config, ...configShop });
             console.log("Load Config");
         }
@@ -148,7 +159,10 @@ const Index = ({ api, modal }) => {
                             onChange={handleChange("eneable")}
                             enabled={config.eneable}
                         />
-                        <TextStyle variation="negative">Aveonline Shopify no es compatible con metodos de pagos Contraentrega</TextStyle>
+                        <TextStyle variation="negative">
+                            Aveonline Shopify no es compatible con metodos de
+                            pagos Contraentrega
+                        </TextStyle>
                         <InputFormText
                             id="user"
                             name="user"
@@ -293,6 +307,25 @@ const Index = ({ api, modal }) => {
                             onChange={handleChange("envioGratis")}
                             enabled={config.envioGratis}
                         />
+                        <Layout.AnnotatedSection
+                            title="minEnvioGratis"
+                            description="Minima compra para Envio Gratis"
+                        >
+                            <Card sectioned>
+                                <FormLayout>
+                                    <TextField
+                                        label="Minimo para Envio Gratis"
+                                        type="number"
+                                        value={config.minEnvioGratis}
+                                        onChange={handleChange(
+                                            "minEnvioGratis"
+                                        )}
+                                        autoComplete="off"
+                                        min={0}
+                                    />
+                                </FormLayout>
+                            </Card>
+                        </Layout.AnnotatedSection>
                         <div className="submit">
                             <Stack distribution="trailing">
                                 <Button primary submit>
