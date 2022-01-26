@@ -3,10 +3,10 @@ import "isomorphic-fetch";
 import createShopifyAuth, { verifyRequest } from "@shopify/koa-shopify-auth";
 import Shopify, { ApiVersion } from "@shopify/shopify-api";
 import Koa from "koa";
+import csp from "koa-csp";
 import next from "next";
 import Router from "koa-router";
 var cors = require("koa2-cors");
-
 
 const fetch = require("node-fetch");
 const env = require("./env");
@@ -134,10 +134,21 @@ app.prepare().then(() => {
     router.get("(.*)", verifyRequest(), handleRequest);
 
     server.use(cors({ origin: "*" }));
-    server.use((req, res, next) => {
-      res.header('Content-Security-Policy', "frame-ancestors 'none'")
-      next()
-    });
+    // server.use((req, res, next) => {
+    //   res.header('Content-Security-Policy', "frame-ancestors 'none'")
+    //   next()
+    // });
+
+    server.use(
+        csp({
+            policy: {
+                "frame-ancestors": [
+                    "none",
+                    "none",
+                ],
+            },
+        })
+    );
     server.use(router.allowedMethods());
     server.use(router.routes());
     server.listen(port, () => {
