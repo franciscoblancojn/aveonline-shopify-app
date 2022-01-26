@@ -134,6 +134,10 @@ app.prepare().then(() => {
     router.get("(.*)", verifyRequest(), handleRequest);
 
     server.use(cors({ origin: "*" }));
+    server.use((req, res, next) => {
+      res.header('Content-Security-Policy', "frame-ancestors 'none'")
+      next()
+    });
     server.use(router.allowedMethods());
     server.use(router.routes());
     server.listen(port, () => {
