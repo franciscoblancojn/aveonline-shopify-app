@@ -143,8 +143,7 @@ app.prepare().then(() => {
         csp({
             policy: {
                 "frame-ancestors": [
-                    "none",
-                    "none",
+                    "*",
                 ],
             },
         })
