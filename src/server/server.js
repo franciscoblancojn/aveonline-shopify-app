@@ -40,17 +40,17 @@ app.prepare().then(() => {
     server.keys = [Shopify.Context.API_SECRET_KEY];
     server.use(
         createShopifyAuth({
-            accessMode: "online",
+            // accessMode: "online",
             async afterAuth(ctx) {
                 // Access token and shop available in ctx.state.shopify
                 const { shop, accessToken, scope } = ctx.state.shopify;
                 const host = ctx.query.host;
                 ACTIVE_SHOPIFY_SHOPS[shop] = scope;
-                ctx.cookies.set("shopOrigin", shop, {
-                    httpOnly: false,
-                    secure: true,
-                    sameSite: "none",
-                });
+                // ctx.cookies.set("shopOrigin", shop, {
+                //     httpOnly: false,
+                //     secure: true,
+                //     sameSite: "none",
+                // });
                 const body = {
                     token: accessToken,
                 };
@@ -120,8 +120,10 @@ app.prepare().then(() => {
             await Shopify.Utils.graphqlProxy(ctx.req, ctx.res);
         }
     );
-    router.get("/", async (ctx) => {
+    router.get("(/_next/static/.*)", handleRequest); // Static content is clear
+    router.get("(.*)", async (ctx) => {
         const shop = ctx.query.shop;
+
         // This shop hasn't been seen yet, go through OAuth to create a session
         if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
             ctx.redirect(`/auth?shop=${shop}`);
@@ -129,9 +131,6 @@ app.prepare().then(() => {
             await handleRequest(ctx);
         }
     });
-    router.get("(/_next/static/.*)", handleRequest); // Static content is clear
-    router.get("/_next/webpack-hmr", handleRequest); // Webpack content is clear
-    router.get("(.*)", verifyRequest(), handleRequest);
 
     server.use(cors({ origin: "*" }));
     // server.use((req, res, next) => {
@@ -142,9 +141,7 @@ app.prepare().then(() => {
     server.use(
         csp({
             policy: {
-                "frame-ancestors": [
-                    "*",
-                ],
+                "frame-ancestors": ["*"],
             },
         })
     );
