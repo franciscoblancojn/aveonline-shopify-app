@@ -133,10 +133,16 @@ app.prepare().then(() => {
     });
 
     server.use(cors({ origin: "*" }));
-    // server.use((req, res, next) => {
-    //   res.header('Content-Security-Policy', "frame-ancestors 'none'")
-    //   next()
-    // });
+    server.use((req, res, next) => {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+
+        // Metodos de solicitud que deseas permitir
+        res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+
+        // Encabecedados que permites (ej. 'X-Requested-With,content-type')
+        res.setHeader("Access-Control-Allow-Headers", "*");
+        next();
+    });
 
     server.use(
         csp({
