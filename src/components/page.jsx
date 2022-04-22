@@ -8,6 +8,7 @@ import Pageproducts from '@/pages/products'
 import Pagerecogidas from '@/pages/recogidas'
 import Pagerelaciones from '@/pages/relaciones'
 import PageErrors from '@/pages/errors'
+import PageCitys from '@/pages/citys'
 
 const Index = ({ api , shop}) => {
   const [indexTab, setIndexTab] = useState(0)
@@ -44,6 +45,11 @@ const Index = ({ api , shop}) => {
       id: 'relaciones',
       content: 'Relaciones',
       page: (<Pagerelaciones api={api} modal={controllerModal} shop={shop} />)
+    },
+    {
+      id: 'citys',
+      content: 'Ciudades Permitidas',
+      page: (<PageCitys api={api} modal={controllerModal} shop={shop}/>)
     },
     {
       id: 'errors',
